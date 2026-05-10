@@ -1,23 +1,15 @@
 <template>
-  <div class="bars">
+  <div class="bars result-bars">
     <div class="bar-head">
       <span>Method</span>
       <span>Target accuracy</span>
-      <span>F1</span>
     </div>
     <div v-for="row in rows" :key="row.name" class="bar-row">
       <div class="name">{{ row.name }}</div>
       <div class="track">
         <div class="fill" :class="{ ours: row.ours }" :style="{ width: row.acc + '%' }"></div>
-        <span v-if="row.ours" class="delta">+28.14 pp vs ResNet-18</span>
       </div>
       <div class="value">{{ row.acc.toFixed(2) }}%</div>
-      <div class="f1">{{ row.f1 }}</div>
-    </div>
-    <div class="comparison-strip">
-      <span>ResNet-18: <strong>65.80%</strong></span>
-      <span class="lift">+28.14 pp</span>
-      <span>MDC-DAN: <strong>93.94%</strong></span>
     </div>
   </div>
 </template>
@@ -41,7 +33,7 @@ const rows = [
 }
 .bar-head {
   display: grid;
-  grid-template-columns: 138px 1fr 54px;
+  grid-template-columns: 128px 1fr 70px;
   gap: 14px;
   color: var(--muted);
   font-size: .7rem;
@@ -51,10 +43,10 @@ const rows = [
 }
 .bar-row {
   display: grid;
-  grid-template-columns: 138px 1fr 78px 54px;
+  grid-template-columns: 128px 1fr 70px;
   gap: 14px;
   align-items: center;
-  margin-bottom: 13px;
+  margin-bottom: 16px;
   color: var(--text);
   font-size: .88rem;
 }
@@ -62,7 +54,7 @@ const rows = [
   margin-bottom: 0;
 }
 .track {
-  height: 20px;
+  height: 22px;
   background: #EFF2F5;
   position: relative;
   border: 1px solid #E4E8EF;
@@ -74,44 +66,8 @@ const rows = [
 .fill.ours {
   background: var(--primary);
 }
-.delta {
-  position: absolute;
-  left: min(68%, calc(93.94% + 8px));
-  top: 50%;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: .74rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
 .value {
   color: var(--text);
   font-weight: 650;
-}
-.f1 {
-  color: var(--muted);
-  font-size: .78rem;
-}
-.comparison-strip {
-  display: grid;
-  grid-template-columns: 1fr 110px 1fr;
-  align-items: center;
-  gap: 12px;
-  margin-top: 16px;
-  padding-top: 13px;
-  border-top: 1px solid var(--border);
-  color: var(--text);
-  font-size: .88rem;
-  text-align: center;
-}
-.comparison-strip strong {
-  color: var(--primary);
-}
-.lift {
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  color: var(--accent);
-  padding: 5px 8px;
-  font-weight: 700;
 }
 </style>

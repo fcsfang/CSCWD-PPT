@@ -1,105 +1,328 @@
 <template>
-  <div class="gap-card">
-    <div class="domain source">
-      <div class="label">Source Domain</div>
-      <div class="sub">CWRU laboratory data · <strong class="source-status">labeled</strong></div>
-      <svg viewBox="0 0 360 110" aria-label="source distribution">
-        <path class="axis" d="M20 88 H338" />
-        <path class="curve source-curve" d="M30 82 C70 78, 82 36, 115 35 C145 34, 151 82, 188 77 C218 72, 230 42, 262 45 C298 49, 304 78, 336 74" />
-        <circle cx="115" cy="35" r="5" />
-        <circle cx="262" cy="45" r="5" />
+  <div class="sim-gap">
+    <section class="domain-panel source-panel">
+      <h3>Source Domain: Digital Twin / Lab</h3>
+      <p>CWRU laboratory bearing data · <strong class="source-status">labeled</strong></p>
+      <ul>
+        <li>controlled speed and load</li>
+        <li>clean vibration signal</li>
+        <li><strong class="source-status">labeled</strong> fault classes</li>
+        <li>high-fidelity source knowledge</li>
+      </ul>
+
+      <svg class="asset-sketch" viewBox="0 0 300 120" aria-label="controlled test rig">
+        <path class="soft-fill" d="M28 76 H91 V99 H28 Z" />
+        <circle class="outline" cx="100" cy="76" r="36" />
+        <circle class="outline light" cx="100" cy="76" r="14" />
+        <path class="outline" d="M136 54 H238 V99 H136 Z" />
+        <path class="soft-fill" d="M238 76 H286 V99 H238 Z" />
+        <path class="outline" d="M28 99 H286" />
       </svg>
-    </div>
-    <div class="bridge">
-      <span>Sim-to-Real gap</span>
-      <div class="arrow">→</div>
-      <p>P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)</p>
-    </div>
-    <div class="domain target">
-      <div class="label">Target Domain</div>
-      <div class="sub">High-speed train data · <strong class="target-status">unlabeled</strong></div>
-      <svg viewBox="0 0 360 110" aria-label="target distribution">
-        <path class="axis" d="M20 88 H338" />
-        <path class="curve target-curve" d="M28 72 C58 82, 86 53, 116 63 C148 74, 163 23, 201 30 C246 38, 242 78, 278 76 C312 75, 318 42, 340 49" />
-        <circle cx="201" cy="30" r="5" />
-        <circle cx="116" cy="63" r="5" />
+      <div class="asset-caption">
+        <span>controlled test rig</span>
+        <span>clean / labeled signal</span>
+      </div>
+      <svg class="wave clean-wave" viewBox="0 0 300 52" aria-label="clean vibration waveform">
+        <path class="axis" d="M16 42 H286" />
+        <path class="wave-line" d="M18 30 L38 26 L55 29 L72 25 L90 31 L106 7 L123 32 L144 29 L160 26 L178 28 L194 25 L211 26 L229 12 L246 31 L264 28 L286 27" />
       </svg>
-    </div>
+    </section>
+
+    <div class="arrow source-arrow" aria-hidden="true"></div>
+
+    <section class="shift-panel">
+      <h3>Distribution Shift</h3>
+      <div class="shift-formula">P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)</div>
+      <p>source-trained model faces changed input statistics</p>
+      <svg class="distribution-plot" viewBox="0 0 360 210" aria-label="source and target distribution shift">
+        <path class="plot-border" d="M26 24 H336 V184 H26 Z" />
+        <path class="axis" d="M58 154 H304" />
+        <path class="axis" d="M58 154 V55" />
+        <text class="source-label" x="112" y="47">source</text>
+        <text class="target-label" x="214" y="47">target</text>
+        <path class="source-curve" d="M62 151 C86 150, 96 126, 112 99 C132 64, 155 58, 174 78 C193 98, 199 133, 226 145 C242 152, 261 153, 286 151" />
+        <path class="target-curve" d="M76 151 C103 149, 127 138, 148 117 C174 91, 202 78, 228 89 C254 100, 270 128, 299 149" />
+        <circle class="source-dot" cx="139" cy="83" r="5" />
+        <circle class="target-dot" cx="235" cy="92" r="5" />
+      </svg>
+    </section>
+
+    <div class="arrow target-arrow" aria-hidden="true"></div>
+
+    <section class="domain-panel target-panel">
+      <h3>Target Domain: Physical Asset / Edge</h3>
+      <p>High-speed train bearing data · <strong class="target-status">unlabeled</strong></p>
+      <ul>
+        <li>operational noise and vibration</li>
+        <li>variable speed and environment</li>
+        <li><strong class="target-status">unlabeled</strong> target samples</li>
+        <li>real deployment condition</li>
+      </ul>
+
+      <svg class="asset-sketch train-sketch" viewBox="0 0 300 120" aria-label="high-speed train asset">
+        <path class="train-body" d="M38 84 L54 42 C70 26 104 22 202 22 C244 22 266 35 278 61 L260 98 H50 Z" />
+        <path class="window" d="M88 47 H128 V68 H88 Z" />
+        <path class="window" d="M146 47 H186 V68 H146 Z" />
+        <path class="window" d="M204 47 H244 V68 H204 Z" />
+        <circle class="wheel" cx="104" cy="103" r="13" />
+        <circle class="wheel" cx="238" cy="103" r="13" />
+      </svg>
+      <div class="asset-caption">
+        <span>real train edge data</span>
+        <span>noisy / unlabeled signal</span>
+      </div>
+      <svg class="wave noisy-wave" viewBox="0 0 300 52" aria-label="noisy vibration waveform">
+        <path class="axis" d="M16 44 H286" />
+        <path class="wave-line" d="M18 30 L27 15 L35 35 L46 9 L55 27 L64 14 L72 40 L82 25 L92 34 L103 4 L113 43 L126 16 L139 35 L150 14 L164 37 L172 4 L181 42 L197 20 L207 36 L219 13 L229 40 L243 22 L252 37 L260 25 L270 39 L286 16" />
+      </svg>
+    </section>
   </div>
 </template>
 
 <style scoped>
-.gap-card {
+.sim-gap {
   display: grid;
-  grid-template-columns: 1fr 150px 1fr;
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1.05fr) 34px minmax(0, 1fr);
+  gap: 12px;
   align-items: center;
 }
-.domain {
-  border: 1px solid var(--line);
-  border-radius: 4px;
+
+.domain-panel,
+.shift-panel {
+  min-height: 328px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
   background: #fff;
-  padding: 16px;
+  padding: 13px 16px 11px;
 }
-.label {
-  color: var(--ink);
-  font-weight: 760;
-  font-size: 1rem;
+
+.source-panel {
+  border-color: color-mix(in srgb, var(--primary) 76%, var(--border));
 }
-.sub {
+
+.target-panel {
+  border-color: color-mix(in srgb, var(--accent) 76%, var(--border));
+}
+
+h3 {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+.source-panel h3 {
+  color: var(--primary);
+}
+
+.target-panel h3 {
+  color: var(--accent);
+}
+
+p {
+  margin: 7px 0 6px;
+  color: var(--text);
+  font-size: .7rem;
+  line-height: 1.25;
+}
+
+ul {
+  margin: 0;
+  padding-left: 15px;
+}
+
+li {
   color: var(--muted);
-  font-size: .75rem;
-  margin-top: 3px;
+  font-size: .64rem;
+  line-height: 1.34;
 }
+
 .source-status {
   color: #007A3D;
   font-weight: 800;
 }
+
 .target-status {
   color: #C2410C;
   font-weight: 800;
 }
-svg {
+
+.asset-sketch {
+  display: block;
   width: 100%;
-  margin-top: 10px;
+  height: 72px;
+  margin-top: 8px;
 }
-.axis {
-  stroke: var(--border);
-  stroke-width: 1.5;
-}
-.curve {
+
+.outline,
+.train-body {
   fill: none;
+  stroke: currentColor;
   stroke-width: 3;
-  stroke-linecap: round;
 }
-.source-curve {
-  stroke: var(--navy);
+
+.source-panel .asset-sketch {
+  color: var(--primary);
 }
-.target-curve {
-  stroke: var(--rust);
+
+.target-panel .asset-sketch {
+  color: var(--accent);
 }
-circle {
-  fill: var(--accent);
+
+.soft-fill,
+.window {
+  fill: color-mix(in srgb, currentColor 8%, #fff);
+  stroke: currentColor;
+  stroke-width: 2;
 }
-.bridge {
+
+.outline.light,
+.wheel {
+  fill: #fff;
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+.asset-caption {
+  display: grid;
+  gap: 3px;
+  margin-top: 0;
   text-align: center;
   color: var(--muted);
+  font-size: .62rem;
+  line-height: 1.2;
 }
-.bridge span {
-  color: var(--rust);
-  font-size: .78rem;
-  text-transform: uppercase;
-  letter-spacing: .03em;
-  font-weight: 700;
+
+.wave {
+  display: block;
+  width: 100%;
+  height: 34px;
+  margin-top: 5px;
 }
+
+.axis {
+  fill: none;
+  stroke: #A7B0BE;
+  stroke-width: 1.5;
+}
+
+.wave-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.clean-wave {
+  color: var(--primary);
+}
+
+.noisy-wave {
+  color: var(--accent);
+}
+
 .arrow {
-  color: var(--ink);
-  font-size: 1.8rem;
-  line-height: 1;
+  height: 1px;
+  background: var(--text);
+  opacity: .78;
+  position: relative;
 }
-.bridge p {
-  font-family: "Times New Roman", serif;
-  font-size: 1rem;
-  margin: 4px 0 0;
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -7px;
+  border-left: 13px solid var(--text);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+
+.target-arrow,
+.target-arrow::after {
+  color: var(--accent);
+}
+
+.target-arrow {
+  background: var(--accent);
+}
+
+.target-arrow::after {
+  border-left-color: var(--accent);
+}
+
+.shift-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.shift-panel h3 {
+  font-size: .98rem;
+}
+
+.shift-formula {
+  margin-top: 8px;
+  color: var(--text);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.48rem;
+  font-weight: 600;
+}
+
+.shift-panel p {
+  margin: 7px 0 8px;
+  color: var(--muted);
+}
+
+.distribution-plot {
+  width: 100%;
+  height: 150px;
+}
+
+.plot-border {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.4;
+}
+
+.source-label,
+.target-label {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.source-label {
+  fill: var(--primary);
+}
+
+.target-label {
+  fill: var(--accent);
+}
+
+.source-curve,
+.target-curve {
+  fill: none;
+  stroke-width: 3;
+  stroke-dasharray: 8 7;
+  stroke-linecap: round;
+}
+
+.source-curve {
+  stroke: var(--primary);
+}
+
+.target-curve {
+  stroke: var(--accent);
+}
+
+.source-dot {
+  fill: var(--primary);
+}
+
+.target-dot {
+  fill: var(--accent);
 }
 </style>

@@ -28,10 +28,8 @@ Bridging the Sim-to-Real gap by combining physics priors with adversarial domain
 Chuanshan Fang, Hongyan Qian, Yongpeng Lin, Sijie Ning, Zhuqing Xu  
 Nanjing University of Aeronautics and Astronautics · Nanjing University
 
-<div class="metric-row mt-8">
-  <div class="metric"><strong>93.94%</strong><span>Target-domain accuracy</span></div>
-  <div class="metric"><strong>0.942</strong><span>Target-domain F1-score</span></div>
-  <div class="metric"><strong>4.2 ms</strong><span>Inference per sample</span></div>
+<div class="cover-summary mt-8">
+  Target-domain accuracy: <strong>93.94%</strong> · F1-score: <strong>0.942</strong> · Inference: <strong>4.2 ms/sample</strong>
 </div>
 
 <!--
@@ -48,7 +46,7 @@ layout: default
 
 <div class="kicker">Outline</div>
 
-# Talk roadmap
+# Presentation Outline
 
 <div class="outline-list">
   <div class="outline-item">
@@ -95,26 +93,26 @@ layout: default
 
 <div class="kicker">Motivation</div>
 
-# 1. Sim-to-Real gap limits digital-twin diagnosis
+# Sim-to-Real gap limits digital-twin diagnosis
 
-<div class="two-grid wide-left">
-  <div>
-    <p class="big-statement">A model trained on clean laboratory data may fail on noisy physical assets.</p>
-    <ul class="small-list mt-5">
-      <li>Digital Twins support predictive maintenance by linking virtual models and physical assets.</li>
-      <li>But physical edge data are noisy, dynamic, and usually unlabeled.</li>
-      <li>The paper formulates this as a distribution shift: <strong>P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)</strong>.</li>
-    </ul>
-  </div>
+<p class="big-statement compact-statement">
+Same fault mechanism, different data distribution.
+</p>
+
+<div class="motivation-domain">
   <DomainGap />
+</div>
+
+<div class="motivation-implication">
+  The key challenge is not only fault classification, but target-domain generalization under distribution shift.
 </div>
 
 <!--
 English:
-The motivation is simple: a model trained on clean laboratory data does not necessarily work on real physical assets. In digital twins, the source domain may be well controlled and labeled, while the target domain is noisy, dynamic, and usually unlabeled. So the first message is that this is a domain adaptation problem, not just a standard classification problem.
+This slide clarifies the Sim-to-Real gap. The source domain comes from controlled laboratory or digital-twin conditions, where labels are available and signals are cleaner. The target domain comes from physical high-speed train assets, where the signal is noisy, operating conditions change, and labels are unavailable during training. Therefore, the key challenge is target-domain generalization under distribution shift.
 
 中文：
-这一页只讲问题本身：在数字孪生场景中，源域通常来自实验台或仿真环境，数据干净且有标签；但目标域是真实设备，噪声更强、工况更复杂，而且通常没有标签。因此这里要先让听众建立共识：这不是普通分类问题，而是一个典型的领域自适应问题。
+这一页强调 Sim-to-Real gap。源域来自受控实验台或数字孪生环境，数据相对干净并且有标签；目标域来自真实高速列车轴承，噪声更强、工况变化更明显，而且训练阶段没有目标域标签。因此核心挑战不仅是故障分类，而是在分布偏移下实现目标域泛化。
 -->
 
 ---
@@ -123,7 +121,7 @@ layout: default
 
 <div class="kicker">Research Gap</div>
 
-# 2. Pure data-driven alignment lacks physical consistency
+# Pure data-driven alignment lacks physical consistency
 
 <p class="big-statement">Distribution alignment is useful, but unsafe when it aligns the wrong evidence.</p>
 
@@ -168,23 +166,17 @@ layout: default
 
 <div class="kicker">Problem Setting</div>
 
-# 3. Unsupervised domain adaptation for bearing faults
+# Unsupervised domain adaptation for bearing faults
 
-<div class="two-grid">
-  <div class="paper-card">
-    <h3>Training data</h3>
-    <p><strong>Source:</strong> D<sub>s</sub> = {(x<sup>s</sup><sub>i</sub>, y<sup>s</sup><sub>i</sub>)} from Digital Twins / laboratory rigs.</p>
-    <p class="mt-3"><strong>Target:</strong> D<sub>t</sub> = {x<sup>t</sup><sub>j</sub>} from physical assets, without labels.</p>
-  </div>
-  <div class="paper-card">
-    <h3>Learning goal</h3>
-    <p>Learn a robust mapping <strong>f: X → Y</strong> that minimizes target-domain generalization error.</p>
-    <p class="mt-3">The representation must be both <em>fault-discriminative</em> and <em>domain-invariant</em>.</p>
-  </div>
-</div>
+| Component | Formalization |
+|---|---|
+| Source domain | $D_s=\{(x_i^s,y_i^s)\}_{i=1}^{n_s}$ |
+| Target domain | $D_t=\{x_j^t\}_{j=1}^{n_t}$, with $Y_t$ unavailable during training |
+| Domain shift | $P(X_s)\ne P(X_t)$ |
+| Objective | $f^\star=\arg\min_f\mathcal{R}_t(f)$, with fault-discriminative and domain-invariant representations |
 
-<div class="note mt-7">
-  Existing pure data-driven DA methods may align statistical noise patterns instead of fault mechanisms, causing negative transfer under variable operating conditions.
+<div class="note mt-5">
+  Target labels are hidden during adaptation and are used only for evaluation.
 </div>
 
 <!--
@@ -199,16 +191,20 @@ Here is the formal setting. We have labeled source samples and unlabeled target 
 layout: statement
 ---
 
-# 4. Key Idea
+# Key Idea
 
 <div class="big-statement">
 Physics first, alignment second: use rotor-dynamics priors to anchor the representation, then use adversarial learning to close the residual domain gap.
 </div>
 
-<div class="three-grid mt-10">
-  <div class="paper-card"><h3>Mechanism</h3><p>Faults manifest as energy around characteristic bearing frequencies.</p></div>
-  <div class="paper-card"><h3>Data</h3><p>Real target data still contain noise and operational variation beyond the physics layer.</p></div>
-  <div class="paper-card"><h3>Collaboration</h3><p>MDC-DAN combines fixed physical encoding with trainable domain adaptation.</p></div>
+<div class="idea-flow mt-10">
+  <div class="idea-node">Physical prior</div>
+  <div class="idea-edge"></div>
+  <div class="idea-node">Mechanism-aligned representation</div>
+  <div class="idea-edge"></div>
+  <div class="idea-node">Adversarial adaptation</div>
+  <div class="idea-edge"></div>
+  <div class="idea-node">Domain-invariant diagnosis</div>
 </div>
 
 <!--
@@ -225,7 +221,7 @@ layout: default
 
 <div class="kicker">Contributions</div>
 
-# 5. Three contributions
+# Three contributions
 
 <div class="contribution-list">
   <div class="contribution-row">
@@ -240,7 +236,7 @@ layout: default
     <div class="contribution-index">C2</div>
     <div>
       <h3>Collaborative adversarial adaptation</h3>
-      <p>Mechanism-aligned features and DANN-style alignment jointly bridge the Sim-to-Real gap.</p>
+      <p>Aligns residual source-target discrepancy after physics encoding.</p>
       <span class="gap-link">Addresses: noise alignment</span>
     </div>
   </div>
@@ -268,47 +264,68 @@ layout: default
 
 <div class="kicker">MDC-DAN Framework</div>
 
-# 6. Overall pipeline before details
+# Conceptual Pipeline
 
 <FrameworkDiagram />
 
 <div class="note mt-6">
-  First establish a physics-aligned representation, then learn domain-invariant fault features.
+  First establish a mechanism-aligned representation, then adapt the remaining source-target discrepancy.
 </div>
 
 <!--
 English:
-I will reveal this diagram step by step. First, source and target signals enter the same pipeline. Then the frozen physics layer maps signals to mechanism features. Finally, the trainable module extracts latent features and branches into fault prediction and domain discrimination.
+This slide gives only the conceptual pipeline. Source and target signals first pass through the frozen physics layer, producing mechanism-aligned features. Domain-adversarial learning is then applied on this representation for alignment and fault prediction.
 
 中文：
-这一页我会分步讲。第一步只看源域和目标域输入；第二步展示固定的物理编码层，把信号映射到机制特征；第三步再展示可训练模块，包括故障分类器和领域判别器。这样可以避免听众一开始就被完整架构图淹没。
+这一页只保留概念流程，帮助听众先抓主线。源域和目标域信号首先进入 frozen 的物理编码层，得到机制对齐的特征；然后在这个表示空间上进行领域对抗学习，用于对齐和故障预测。
 -->
 
 ---
 layout: default
-zoom: 0.9
+---
+
+<div class="kicker">MDC-DAN Framework</div>
+
+# Full architecture of MDC-DAN
+
+<figure class="framework-paper-figure">
+  <img src="/figures/framework-paper.png" alt="Full MDC-DAN architecture" />
+  <figcaption class="caption">Figure: Overall MDC-DAN architecture.</figcaption>
+</figure>
+
+<div class="note mt-4">
+  The full architecture expands the simplified pipeline into two concrete components: a frozen Physics-Encoding Layer and a trainable Domain-Adversarial Module.
+</div>
+
+<!--
+English:
+After the simplified view, this slide presents the full MDC-DAN architecture. The left part corresponds to the physics encoding process, where raw vibration signals are transformed into mechanism-aware features. The right part is the adversarial adaptation module, which aligns source and target representations while preserving fault-discriminative information.
+
+中文：
+在简化图之后，这里展示论文中的完整总体架构图。左侧对应物理编码过程，将原始振动信号转化为机制感知特征；右侧对应领域对抗模块，在保持故障分类能力的同时对齐源域和目标域表示。
+-->
+
+---
+layout: default
+zoom: 0.84
 ---
 
 <div class="kicker">Physics-Encoding Layer</div>
 
-# 7. Frozen Physics-Encoding Layer
+# Physics-Encoding Layer
 
-<div class="physics-badges">
-  <div>non-learnable</div>
-  <div>frozen forward path</div>
-  <div>hard-wired rotor dynamics</div>
+<div class="note mb-3">
+  Φ<sub>phy</sub> is frozen; calculation paths are determined by rotor dynamics, not learned from data.
 </div>
 
 <PhysicsEncoding />
 
-<div class="formula-grid compact-formulas mt-4">
-  <FormulaCard title="Layer mapping" note="The layer is frozen and predetermined by rotor dynamics.">
-    h<sub>phy</sub> = Φ<sub>phy</sub>(x) = [ψ<sub>stat</sub>(x) ⊕ ψ<sub>mech</sub>(x) ⊕ ψ<sub>freq</sub>(x)]<sup>T</sup>
-  </FormulaCard>
-  <FormulaCard title="BPFO example" note="N: rolling elements; fr: shaft frequency; d/D: rolling-element and pitch diameters; α: contact angle.">
-    f<sub>BPFO</sub> = N/2 · f<sub>r</sub>(1 − d/D · cosα)
-  </FormulaCard>
-</div>
+| Formula | Expression |
+|---|---|
+| Layer mapping | $h_{\mathrm{phy}}=\Phi_{\mathrm{phy}}(x)=[\psi_{\mathrm{stat}}(x)\oplus\psi_{\mathrm{mech}}(x)\oplus\psi_{\mathrm{freq}}(x)]^{T}$ |
+| BPFO example | $f_{\mathrm{BPFO}}=\frac{N}{2}f_r\left(1-\frac{d}{D}\cos\alpha\right)$ |
+
+<div class="caption mt-2">N: rolling elements; f<sub>r</sub>: shaft frequency; d/D: rolling-element and pitch diameters; α: contact angle.</div>
 
 <!--
 English:
@@ -325,7 +342,7 @@ zoom: 0.88
 
 <div class="kicker">Domain-Adversarial Module</div>
 
-# 8. Domain-adversarial learning
+# Domain-adversarial learning on mechanism-aligned features
 
 <AdversarialModule />
 
@@ -344,16 +361,22 @@ zoom: 0.88
   </div>
 </div>
 
-<FormulaCard class="mt-3 compact-formula-card" title="Training objective" note="The paper uses a dynamic λp = 2/(1+exp(-10p))-1 to stabilize adversarial training.">
-  E(θ<sub>f</sub>, θ<sub>y</sub>, θ<sub>d</sub>) = L<sub>y</sub> − λ<sub>p</sub>L<sub>d</sub>
-</FormulaCard>
+| Training objective |  |
+|---|---|
+| MDC-DAN | $\mathcal{E}(\theta_f,\theta_y,\theta_d)=\mathcal{L}_y(\theta_f,\theta_y)-\lambda_p\mathcal{L}_d(\theta_f,\theta_d)$ |
+
+<div class="caption mt-2">A dynamic λ<sub>p</sub> schedule gradually strengthens adversarial adaptation.</div>
+
+<div class="note mt-3">
+  Difference from vanilla DANN: alignment is performed after physics encoding, so it aligns mechanism-aware features rather than raw statistical patterns.
+</div>
 
 <!--
 English:
-This module follows the DANN logic. Gf learns latent fault features from hphy. Gy keeps the representation discriminative for source fault labels. Gd tries to distinguish source from target, while the gradient reversal layer makes Gf fool Gd. The dynamic λp schedule gradually strengthens the adversarial signal.
+This module follows the DANN logic. Gf learns latent fault features from hphy. Gy keeps the representation discriminative for source fault labels. Gd tries to distinguish source from target, while the gradient reversal layer makes Gf fool Gd. The important difference from vanilla DANN is that alignment happens after physics encoding, so the aligned evidence is mechanism-aware instead of purely statistical.
 
 中文：
-这一页重点讲 DANN 的对抗逻辑。Gf 从 hphy 中学习潜在故障特征，Gy 保证源域故障分类能力，Gd 判断特征来自源域还是目标域，而 GRL 反转梯度，使 Gf 学到能够欺骗 Gd 的域不变表示。动态 λp 则逐步增强对抗信号，避免训练初期过强对抗造成不稳定。
+这一页重点讲 DANN 的对抗逻辑。Gf 从 hphy 中学习潜在故障特征，Gy 保证源域故障分类能力，Gd 判断特征来自源域还是目标域，而 GRL 反转梯度，使 Gf 学到能够欺骗 Gd 的域不变表示。和 vanilla DANN 的关键区别是：这里的对齐发生在物理编码之后，因此对齐的是机制感知特征，而不是原始统计模式。
 -->
 
 ---
@@ -362,13 +385,13 @@ layout: default
 
 <div class="kicker">Experiments</div>
 
-# 9. Cross-domain high-speed rail maintenance scenario
+# Cross-domain high-speed rail maintenance scenario
 
 <table class="experiment-table mt-5">
   <thead>
     <tr>
       <th>Aspect</th>
-      <th>Setting reported in the paper</th>
+      <th>Experimental setting</th>
       <th>Purpose in evaluation</th>
     </tr>
   </thead>
@@ -391,13 +414,13 @@ layout: default
     <tr>
       <td><strong>Training</strong></td>
       <td>PyTorch, RTX 3090, Adam, lr = 1e-3, batch size 64, 50 epochs.</td>
-      <td>Uses target data without target labels during training.</td>
+      <td>UDA protocol: target labels are hidden during training and used only for evaluation.</td>
     </tr>
   </tbody>
 </table>
 
 <div class="note mt-7">
-  Baselines are trained on source-domain data and directly evaluated on real target-domain data under a cross-domain setting.
+  UDA protocol: target labels are hidden during training and are used only for final target-domain evaluation.
 </div>
 
 <!--
@@ -414,14 +437,28 @@ layout: default
 
 <div class="kicker">Main Results</div>
 
-# 10. MDC-DAN gains +28.14 pp over ResNet-18
+# MDC-DAN gains +28.14 pp over ResNet-18
 
-<ResultBars />
+<div class="results-layout">
+  <ResultBars />
+  <div class="result-summary">
+    <div class="result-item">
+      <span>Accuracy</span>
+      <strong>93.94%</strong>
+    </div>
+    <div class="result-item accent">
+      <span>Gain over ResNet-18</span>
+      <strong>+28.14 pp</strong>
+    </div>
+    <div class="result-item">
+      <span>F1-score</span>
+      <strong>0.942</strong>
+    </div>
+  </div>
+</div>
 
-<div class="metric-row mt-5">
-  <div class="metric"><strong>93.94%</strong><span>MDC-DAN accuracy</span></div>
-  <div class="metric"><strong>+28.14 pp</strong><span>vs. ResNet-18 accuracy</span></div>
-  <div class="metric"><strong>0.942</strong><span>MDC-DAN F1-score</span></div>
+<div class="note mt-5">
+  Physics-grounded representation and adversarial alignment jointly improve target-domain generalization under Sim-to-Real shift.
 </div>
 
 <!--
@@ -438,23 +475,29 @@ layout: default
 
 <div class="kicker">Robustness & Efficiency</div>
 
-# 11. Stable adversarial weight and lightweight inference
+# Stable adversarial weight and lightweight inference
 
 <div class="two-grid">
   <figure class="figure-frame">
     <img src="/figures/sensitivity.png" alt="Sensitivity analysis" />
     <figcaption class="caption">Figure: Sensitivity of adversarial trade-off parameter λ on target-domain accuracy.</figcaption>
   </figure>
-  <div class="observation-list">
-    <h3>Observations</h3>
-    <ul class="small-list">
-      <li>Optimal performance appears around <strong>λ = 0.5 to 0.7</strong>.</li>
-      <li>Performance remains stable across <strong>[0.3, 0.8]</strong>.</li>
-      <li>Too-small λ weakens alignment; too-large λ distracts from classification.</li>
-      <li>The dynamic λ<sub>p</sub> schedule helps avoid unstable gradients at the early stage of adversarial training.</li>
-      <li>Average inference time is <strong>4.2 ms per sample</strong>.</li>
-      <li>Compared with heavy 2D-CNN image-conversion pipelines, MDC-DAN reduces computational cost by approximately <strong>60%</strong>.</li>
-    </ul>
+  <div class="analysis-groups">
+    <div class="analysis-group">
+      <h3>Robustness</h3>
+      <ul class="small-list">
+        <li>Best performance appears around <strong>λ = 0.5 to 0.7</strong>.</li>
+        <li>Accuracy remains stable across <strong>[0.3, 0.8]</strong>.</li>
+        <li>The dynamic λ<sub>p</sub> schedule stabilizes early adversarial training.</li>
+      </ul>
+    </div>
+    <div class="analysis-group">
+      <h3>Efficiency</h3>
+      <ul class="small-list">
+        <li>Average inference time is <strong>4.2 ms per sample</strong>.</li>
+        <li>Computational cost is reduced by approximately <strong>60%</strong> compared with heavy 2D-CNN image-conversion pipelines.</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -468,11 +511,12 @@ This page adds two practical messages. First, the method is not extremely sensit
 
 ---
 layout: default
+zoom: 0.9
 ---
 
 <div class="kicker">Interpretability</div>
 
-# 12. t-SNE and SHAP verify physical consistency
+# t-SNE and SHAP verify physical consistency
 
 <EvidencePair
   left="/figures/tsne.png"
@@ -483,7 +527,7 @@ layout: default
 
 <div class="observation-list mt-4">
   <h3>Observation</h3>
-  <p><strong>The model makes decisions for the right reason.</strong> After adaptation, source and target samples from the same fault class cluster together; SHAP assigns high importance to mechanism-related energy features, especially BPFO and BPFI.</p>
+  <p><strong>MDC-DAN relies on physically meaningful evidence rather than statistical shortcuts.</strong> After adaptation, source and target samples from the same fault class cluster together; SHAP assigns high importance to mechanism-related energy features, especially BPFO and BPFI.</p>
 </div>
 
 <!--
@@ -500,23 +544,31 @@ hideInToc: true
 class: end
 ---
 
-# 13. Conclusion
+# Conclusion
 
-<div class="takeaway-layout">
+<p class="conclusion-sentence">
+MDC-DAN bridges Sim-to-Real fault diagnosis by combining frozen physics priors with adversarial domain adaptation.
+</p>
+
+<div class="conclusion-grid">
   <div class="takeaway-block">
-    <h2>Takeaway</h2>
-    <p>MDC-DAN bridges the Sim-to-Real gap by combining a non-learnable physics encoding layer with adversarial domain adaptation, achieving accurate and interpretable target-domain fault diagnosis without target labels.</p>
+    <h2>Main Contributions</h2>
+    <ul>
+      <li>Physics-Encoding Layer embeds bearing kinematic priors.</li>
+      <li>Adversarial adaptation aligns residual source-target discrepancy.</li>
+      <li>t-SNE and SHAP support physically meaningful decision evidence.</li>
+    </ul>
   </div>
   <div class="future-block">
     <h2>Future Work</h2>
     <ul>
-      <li>Blind source adaptation when bearing geometry is unknown.</li>
+      <li>Blind source adaptation for unknown bearing geometry.</li>
       <li>Diffusion-based generation of physically consistent nonstationary data.</li>
     </ul>
   </div>
 </div>
 
-## Thank you
+## Thank you. Questions?
 
 <!--
 English:

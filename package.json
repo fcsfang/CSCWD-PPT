@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "slidev --port 3031",
     "build": "slidev build",
-    "export": "slidev export --per-slide --output ../CSCWD2026_MDC-DAN_Slidev.pdf"
+    "export": "slidev export --per-slide --output ../CSCWD2026.pdf"
   },
   "devDependencies": {
     "@slidev/cli": "^52.14.1",

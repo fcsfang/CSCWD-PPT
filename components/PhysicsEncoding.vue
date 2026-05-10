@@ -13,7 +13,7 @@
         <tr>
           <th>Feature group</th>
           <th>Indices</th>
-          <th>Definitions used in the paper</th>
+          <th>Feature definitions</th>
           <th>Role in diagnosis</th>
         </tr>
       </thead>
@@ -38,10 +38,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div class="constraint">
-      Φ<sub>phy</sub> is frozen / non-learnable / determined by rotor dynamics.
-    </div>
   </div>
 </template>
 
@@ -120,13 +116,5 @@ td:nth-child(2) {
 .mechanism td:first-child,
 .mechanism td:nth-child(2) {
   color: var(--accent);
-}
-.constraint {
-  margin-top: 10px;
-  border-left: 3px solid var(--accent);
-  padding-left: 10px;
-  color: var(--accent);
-  font-size: .78rem;
-  font-weight: 650;
 }
 </style>

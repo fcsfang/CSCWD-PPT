@@ -89,6 +89,19 @@
   color: var(--muted);
 }
 
+.cover-summary {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.cover-summary strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .outline-list {
   display: grid;
   gap: 13px;
@@ -137,6 +150,28 @@
   grid-template-columns: 1.16fr .84fr;
 }
 
+.compact-statement {
+  font-size: 1.36rem;
+  margin-bottom: 14px;
+}
+
+.motivation-domain {
+  margin-top: 4px;
+}
+
+.motivation-implication {
+  max-width: 900px;
+  margin: 14px auto 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  padding: 10px 18px;
+  color: var(--text);
+  font-size: .92rem;
+  font-weight: 620;
+  text-align: center;
+}
+
 .three-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -152,6 +187,80 @@
 .note {
   border-radius: 6px;
   box-shadow: none;
+}
+
+.problem-formulation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.formula-panel {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 16px 18px;
+  min-height: 126px;
+}
+
+.formula-panel.wide {
+  grid-column: 1 / -1;
+  min-height: 112px;
+}
+
+.formula-panel h3 {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font-size: .92rem;
+}
+
+.formula-panel .katex-display {
+  margin: .45rem 0;
+  font-size: 1.02rem;
+}
+
+.idea-flow {
+  display: grid;
+  grid-template-columns: 1fr 46px 1.2fr 46px 1.05fr 46px 1.18fr;
+  gap: 0;
+  align-items: center;
+}
+
+.idea-node {
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--primary);
+  border-radius: 4px;
+  background: var(--card);
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: .94rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.idea-node:nth-of-type(7) {
+  border-top-color: var(--accent);
+}
+
+.idea-edge {
+  height: 1px;
+  background: var(--border);
+  position: relative;
+}
+
+.idea-edge::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -4px;
+  border-left: 7px solid var(--border);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
 }
 
 .paper-card {
@@ -216,6 +325,21 @@
   max-height: 365px;
 }
 
+.framework-paper-figure {
+  margin: 12px 0 0;
+}
+
+.framework-paper-figure img {
+  display: block;
+  width: 100%;
+  max-height: 445px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 8px;
+  border-radius: 6px;
+}
+
 .note {
   border-left: 4px solid var(--accent);
   background: #FFFFFF;
@@ -249,8 +373,12 @@
 
 .compact-formulas .formula,
 .compact-formula-card .formula {
-  font-size: .98rem;
+  font-size: .9rem;
   margin-top: 7px;
+}
+
+.formula-card .katex-display {
+  margin: .35rem 0;
 }
 
 .compact-formulas p,
@@ -306,6 +434,48 @@
   background: var(--card);
   border: 1px solid var(--border);
   font-size: .82rem;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-top: 18px;
+  font-size: .86rem;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) th,
+.slidev-layout table:not(.research-table):not(.experiment-table) td {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) th {
+  background: #F2F4F7;
+  color: var(--text);
+  font-weight: 650;
+  text-align: left;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) td {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) tr:last-child td {
+  border-bottom: 0;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) th:last-child,
+.slidev-layout table:not(.research-table):not(.experiment-table) td:last-child {
+  border-right: 0;
+}
+
+.slidev-layout table:not(.research-table):not(.experiment-table) .katex {
+  font-size: 1.02em;
 }
 
 .research-table th,
@@ -440,6 +610,79 @@
   font-size: .78rem;
 }
 
+.results-layout {
+  display: grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.result-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.result-item {
+  border-top: 2px solid var(--primary);
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 15px 16px;
+}
+
+.result-item.accent {
+  border-top-color: var(--accent);
+}
+
+.result-item span {
+  display: block;
+  color: var(--muted);
+  font-size: .76rem;
+  margin-bottom: 8px;
+}
+
+.result-item strong {
+  display: block;
+  color: var(--primary);
+  font-size: 1.78rem;
+  line-height: 1;
+}
+
+.result-item.accent strong {
+  color: var(--accent);
+}
+
+.analysis-groups {
+  display: grid;
+  gap: 20px;
+}
+
+.analysis-group {
+  border-left: 2px solid var(--primary);
+  padding-left: 16px;
+}
+
+.analysis-group:nth-child(2) {
+  border-left-color: var(--accent);
+}
+
+.analysis-group h3 {
+  margin: 0 0 9px;
+  color: var(--primary);
+  font-size: .98rem;
+}
+
+.analysis-group:nth-child(2) h3 {
+  color: var(--accent);
+}
+
+.analysis-group ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
 .observation-list {
   border-left: 2px solid var(--primary);
   padding-left: 16px;
@@ -456,12 +699,22 @@
   padding-left: 18px;
 }
 
-.takeaway-layout {
+.takeaway-layout,
+.conclusion-grid {
   display: grid;
   grid-template-columns: 1.08fr .92fr;
   gap: 28px;
   align-items: start;
   margin-top: 18px;
+}
+
+.conclusion-sentence {
+  max-width: 920px;
+  margin: 18px auto 22px;
+  color: var(--text) !important;
+  font-size: 1.2rem !important;
+  line-height: 1.4 !important;
+  text-align: center;
 }
 
 .takeaway-block,
@@ -488,6 +741,13 @@
   margin: 0;
 }
 
+.takeaway-block ul,
+.future-block ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.takeaway-block li,
 .future-block li {
   font-size: .9rem;
   margin-bottom: 9px;
