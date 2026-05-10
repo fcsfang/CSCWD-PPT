@@ -1,0 +1,453 @@
+:root {
+  --bg: #FAFAFA;
+  --text: #1F2933;
+  --muted: #5B6472;
+  --primary: #1F4E79;
+  --accent: #8A1C1C;
+  --border: #D9DEE7;
+  --card: #FFFFFF;
+
+  --paper: var(--bg);
+  --paper-2: #F2F4F7;
+  --ink: var(--text);
+  --line: var(--border);
+  --navy: var(--primary);
+  --rust: var(--accent);
+  --teal: #376B70;
+  --gold: #8F6A2A;
+  --panel: var(--card);
+}
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout p,
+.slidev-layout li,
+.slidev-layout div {
+  letter-spacing: 0;
+}
+
+.slidev-layout h1 {
+  color: var(--text);
+  font-size: 2.02rem;
+  line-height: 1.12;
+  font-weight: 640;
+}
+
+.slidev-layout h2 {
+  color: var(--primary);
+  font-size: 1.08rem;
+  line-height: 1.28;
+  font-weight: 620;
+}
+
+.slidev-layout h3 {
+  color: var(--text);
+  font-weight: 620;
+}
+
+.slidev-layout p,
+.slidev-layout li {
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.43;
+}
+
+.slidev-layout strong {
+  color: var(--text);
+  font-weight: 680;
+}
+
+.slidev-layout em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.kicker {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.big-statement {
+  max-width: 980px;
+  font-size: 1.65rem;
+  line-height: 1.24;
+  font-weight: 620;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.two-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.two-grid.wide-right {
+  grid-template-columns: .78fr 1.22fr;
+}
+
+.two-grid.wide-left {
+  grid-template-columns: 1.16fr .84fr;
+}
+
+.three-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.paper-card,
+.gap-card,
+.contribution-card,
+.game-card,
+.metric,
+.figure-frame,
+.note {
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.paper-card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 16px 18px;
+}
+
+.paper-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.paper-card p {
+  margin: 0;
+  font-size: .82rem;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.metric {
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  background: var(--card);
+  padding: 13px 14px;
+}
+
+.metric strong {
+  display: block;
+  color: var(--primary);
+  font-size: 1.52rem;
+  line-height: 1;
+  font-weight: 720;
+}
+
+.metric span {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.figure-frame {
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 8px;
+  margin: 0;
+}
+
+.figure-frame img {
+  display: block;
+  width: 100%;
+  max-height: 386px;
+  object-fit: contain;
+}
+
+.framework-figure img {
+  max-height: 365px;
+}
+
+.note {
+  border-left: 4px solid var(--accent);
+  background: #FFFFFF;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.caption {
+  color: var(--muted);
+  font-size: .7rem;
+  margin-top: 7px;
+}
+
+.formula-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.compact-formulas {
+  gap: 10px;
+}
+
+.compact-formulas .formula-card,
+.compact-formula-card {
+  min-height: 84px;
+  padding: 11px 12px;
+}
+
+.compact-formulas .formula,
+.compact-formula-card .formula {
+  font-size: .98rem;
+  margin-top: 7px;
+}
+
+.compact-formulas p,
+.compact-formula-card p {
+  font-size: .66rem;
+  margin-top: 6px;
+}
+
+.small-list li {
+  font-size: .86rem;
+  margin-bottom: 7px;
+}
+
+.slidev-layout.cover h1 {
+  color: var(--primary);
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.slidev-layout.end h1 {
+  font-size: 2.15rem;
+}
+
+.slidev-layout.end {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.slidev-layout.end,
+.slidev-layout.end * {
+  letter-spacing: 0 !important;
+}
+
+.slidev-layout.end h1,
+.slidev-layout.end h2,
+.slidev-layout.end p,
+.slidev-layout.end li {
+  color: var(--text);
+}
+
+.thesis {
+  margin-top: 18px;
+  color: var(--accent);
+  font-size: 1.03rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.research-table,
+.experiment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: .82rem;
+}
+
+.research-table th,
+.research-table td,
+.experiment-table th,
+.experiment-table td {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 11px 12px;
+  vertical-align: top;
+}
+
+.research-table th:last-child,
+.research-table td:last-child,
+.experiment-table th:last-child,
+.experiment-table td:last-child {
+  border-right: 0;
+}
+
+.research-table tr:last-child td,
+.experiment-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.research-table th,
+.experiment-table th {
+  background: #F2F4F7;
+  color: var(--text);
+  font-weight: 650;
+  text-align: left;
+}
+
+.research-table td,
+.experiment-table td {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.research-table strong,
+.experiment-table strong {
+  color: var(--primary);
+}
+
+.contribution-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.contribution-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 18px;
+  align-items: start;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 15px 18px;
+}
+
+.contribution-row:nth-child(3) {
+  border-left-color: var(--accent);
+}
+
+.contribution-index {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.contribution-row h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.contribution-row p {
+  margin: 0;
+  font-size: .86rem;
+}
+
+.physics-badges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.physics-badges div {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--accent);
+  padding: 9px 11px;
+  font-size: .78rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.dann-points {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.dann-point {
+  border-top: 2px solid var(--primary);
+  padding-top: 9px;
+}
+
+.dann-point:nth-child(3) {
+  border-top-color: var(--accent);
+}
+
+.dann-point h3 {
+  margin: 0 0 5px;
+  font-size: .92rem;
+}
+
+.dann-point p {
+  margin: 0;
+  font-size: .78rem;
+}
+
+.observation-list {
+  border-left: 2px solid var(--primary);
+  padding-left: 16px;
+}
+
+.observation-list h3 {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font-size: .98rem;
+}
+
+.observation-list ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.takeaway-layout {
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.takeaway-block,
+.future-block {
+  border-top: 2px solid var(--primary);
+  padding-top: 14px;
+}
+
+.future-block {
+  border-top-color: var(--accent);
+}
+
+.takeaway-block h2,
+.future-block h2 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 1.12rem;
+}
+
+.takeaway-block p {
+  color: var(--text);
+  font-size: 1.08rem;
+  line-height: 1.38;
+  margin: 0;
+}
+
+.future-block li {
+  font-size: .9rem;
+  margin-bottom: 9px;
+}

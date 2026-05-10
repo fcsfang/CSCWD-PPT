@@ -1,0 +1,24 @@
+{
+  "name": "mdc-dan-cscwd-2026-slidev",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.0.9",
+  "scripts": {
+    "dev": "slidev --port 3031",
+    "build": "slidev build",
+    "export": "slidev export --per-slide --output ../CSCWD2026_MDC-DAN_Slidev.pdf"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^52.14.1",
+    "@slidev/theme-default": "^0.25.0",
+    "playwright-chromium": "^1.59.1",
+    "slidev-theme-academic": "^2.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "playwright-chromium"
+    ]
+  }
+}
