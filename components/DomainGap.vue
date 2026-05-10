@@ -1,14 +1,12 @@
 <template>
   <div class="sim-gap">
     <section class="domain-panel source-panel">
-      <h3>Source Domain: Digital Twin / Lab</h3>
-      <p>CWRU laboratory bearing data · <strong class="source-status">labeled</strong></p>
-      <ul>
-        <li>controlled speed and load</li>
-        <li>clean vibration signal</li>
-        <li><strong class="source-status">labeled</strong> fault classes</li>
-        <li>high-fidelity source knowledge</li>
-      </ul>
+      <h3>Source Domain</h3>
+      <div class="keyword-list source-keywords">
+        <span>clean</span>
+        <span>labeled</span>
+        <span>controlled</span>
+      </div>
 
       <svg class="asset-sketch" viewBox="0 0 300 120" aria-label="controlled test rig">
         <path class="soft-fill" d="M28 76 H91 V99 H28 Z" />
@@ -20,7 +18,6 @@
       </svg>
       <div class="asset-caption">
         <span>controlled test rig</span>
-        <span>clean / labeled signal</span>
       </div>
       <svg class="wave clean-wave" viewBox="0 0 300 52" aria-label="clean vibration waveform">
         <path class="axis" d="M16 42 H286" />
@@ -33,7 +30,6 @@
     <section class="shift-panel">
       <h3>Distribution Shift</h3>
       <div class="shift-formula">P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)</div>
-      <p>source-trained model faces changed input statistics</p>
       <svg class="distribution-plot" viewBox="0 0 360 210" aria-label="source and target distribution shift">
         <path class="plot-border" d="M26 24 H336 V184 H26 Z" />
         <path class="axis" d="M58 154 H304" />
@@ -50,14 +46,12 @@
     <div class="arrow target-arrow" aria-hidden="true"></div>
 
     <section class="domain-panel target-panel">
-      <h3>Target Domain: Physical Asset / Edge</h3>
-      <p>High-speed train bearing data · <strong class="target-status">unlabeled</strong></p>
-      <ul>
-        <li>operational noise and vibration</li>
-        <li>variable speed and environment</li>
-        <li><strong class="target-status">unlabeled</strong> target samples</li>
-        <li>real deployment condition</li>
-      </ul>
+      <h3>Target Domain</h3>
+      <div class="keyword-list target-keywords">
+        <span>noisy</span>
+        <span>unlabeled</span>
+        <span>variable-speed</span>
+      </div>
 
       <svg class="asset-sketch train-sketch" viewBox="0 0 300 120" aria-label="high-speed train asset">
         <path class="train-body" d="M38 84 L54 42 C70 26 104 22 202 22 C244 22 266 35 278 61 L260 98 H50 Z" />
@@ -69,7 +63,6 @@
       </svg>
       <div class="asset-caption">
         <span>real train edge data</span>
-        <span>noisy / unlabeled signal</span>
       </div>
       <svg class="wave noisy-wave" viewBox="0 0 300 52" aria-label="noisy vibration waveform">
         <path class="axis" d="M16 44 H286" />
@@ -89,7 +82,7 @@
 
 .domain-panel,
 .shift-panel {
-  min-height: 328px;
+  min-height: 312px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: #fff;
@@ -106,7 +99,7 @@
 
 h3 {
   margin: 0;
-  font-size: .9rem;
+  font-size: 1.05rem;
   line-height: 1.18;
   font-weight: 700;
 }
@@ -119,24 +112,6 @@ h3 {
   color: var(--accent);
 }
 
-p {
-  margin: 7px 0 6px;
-  color: var(--text);
-  font-size: .7rem;
-  line-height: 1.25;
-}
-
-ul {
-  margin: 0;
-  padding-left: 15px;
-}
-
-li {
-  color: var(--muted);
-  font-size: .64rem;
-  line-height: 1.34;
-}
-
 .source-status {
   color: #007A3D;
   font-weight: 800;
@@ -147,11 +122,38 @@ li {
   font-weight: 800;
 }
 
+.keyword-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.keyword-list span {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+  padding: 6px 4px;
+  text-align: center;
+  font-size: .76rem;
+  font-weight: 720;
+}
+
+.source-keywords span {
+  color: #007A3D;
+  border-color: color-mix(in srgb, #007A3D 42%, var(--border));
+}
+
+.target-keywords span {
+  color: #C2410C;
+  border-color: color-mix(in srgb, #C2410C 42%, var(--border));
+}
+
 .asset-sketch {
   display: block;
   width: 100%;
-  height: 72px;
-  margin-top: 8px;
+  height: 88px;
+  margin-top: 24px;
 }
 
 .outline,
@@ -189,15 +191,15 @@ li {
   margin-top: 0;
   text-align: center;
   color: var(--muted);
-  font-size: .62rem;
+  font-size: .74rem;
   line-height: 1.2;
 }
 
 .wave {
   display: block;
   width: 100%;
-  height: 34px;
-  margin-top: 5px;
+  height: 42px;
+  margin-top: 9px;
 }
 
 .axis {
@@ -260,25 +262,21 @@ li {
 }
 
 .shift-panel h3 {
-  font-size: .98rem;
+  font-size: 1.1rem;
 }
 
 .shift-formula {
-  margin-top: 8px;
+  margin-top: 16px;
   color: var(--text);
   font-family: "Times New Roman", Times, serif;
-  font-size: 1.48rem;
+  font-size: 2.12rem;
   font-weight: 600;
-}
-
-.shift-panel p {
-  margin: 7px 0 8px;
-  color: var(--muted);
 }
 
 .distribution-plot {
   width: 100%;
-  height: 150px;
+  height: 168px;
+  margin-top: 12px;
 }
 
 .plot-border {

@@ -8,14 +8,14 @@ drawings:
   persist: false
 transition: fade
 themeConfig:
-  paginationX: ''
-  paginationY: ''
+  paginationX: ""
+  paginationY: ""
 layout: cover
 hideInToc: true
 class: cover
 ---
 
-<div class="kicker">CSCWD 2026 · Oral Presentation</div>
+<div class="kicker">CSCWD 2026 · Presentation</div>
 
 # MDC-DAN
 
@@ -168,12 +168,20 @@ layout: default
 
 # Unsupervised domain adaptation for bearing faults
 
-| Component | Formalization |
-|---|---|
-| Source domain | $D_s=\{(x_i^s,y_i^s)\}_{i=1}^{n_s}$ |
-| Target domain | $D_t=\{x_j^t\}_{j=1}^{n_t}$, with $Y_t$ unavailable during training |
-| Domain shift | $P(X_s)\ne P(X_t)$ |
-| Objective | $f^\star=\arg\min_f\mathcal{R}_t(f)$, with fault-discriminative and domain-invariant representations |
+<div class="problem-formula-grid">
+  <FormulaCard title="Source domain">
+    D<sub>s</sub> = {(x<sub>i</sub><sup>s</sup>, y<sub>i</sub><sup>s</sup>)}<sub>i=1</sub><sup>n<sub>s</sub></sup>
+  </FormulaCard>
+  <FormulaCard title="Target domain">
+    D<sub>t</sub> = {x<sub>j</sub><sup>t</sup>}<sub>j=1</sub><sup>n<sub>t</sub></sup>, &nbsp; Y<sub>t</sub> unavailable during training
+  </FormulaCard>
+  <FormulaCard title="Domain shift">
+    P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)
+  </FormulaCard>
+  <FormulaCard title="Learning objective">
+    f<sup>*</sup> = arg min<sub>f</sub> R<sub>t</sub>(f)
+  </FormulaCard>
+</div>
 
 <div class="note mt-5">
   Target labels are hidden during adaptation and are used only for evaluation.
@@ -207,12 +215,16 @@ Physics first, alignment second: use rotor-dynamics priors to anchor the represe
   <div class="idea-node">Domain-invariant diagnosis</div>
 </div>
 
+<div class="idea-explanation mt-8">
+  Mechanism priors constrain what should remain invariant; adversarial learning adapts what still differs across domains.
+</div>
+
 <!--
 English:
-The key idea is physics first and alignment second. Instead of sending raw signals directly into a black-box adaptation model, MDC-DAN first extracts a physics-aligned representation using rotor-dynamics priors. Then adversarial learning closes the remaining statistical gap.
+The key idea is physics first and alignment second. Mechanism priors constrain what should remain invariant across simulation and real deployment, while adversarial learning adapts what still differs across domains.
 
 中文：
-这一页是方法的入口：先物理、后对齐。MDC-DAN 不是直接把原始信号交给黑箱 DA 模型，而是先利用转子动力学先验得到物理一致的表示，再用对抗学习缩小剩余的统计分布差异。
+这一页是方法的入口：先物理、后对齐。机制先验约束哪些信息应该跨域保持不变，对抗学习再去适配源域和目标域之间仍然存在的差异。
 -->
 
 ---
@@ -269,15 +281,15 @@ layout: default
 <FrameworkDiagram />
 
 <div class="note mt-6">
-  First establish a mechanism-aligned representation, then adapt the remaining source-target discrepancy.
+  The simplified pipeline separates physics encoding, latent fault representation, and adversarial alignment.
 </div>
 
 <!--
 English:
-This slide gives only the conceptual pipeline. Source and target signals first pass through the frozen physics layer, producing mechanism-aligned features. Domain-adversarial learning is then applied on this representation for alignment and fault prediction.
+This slide gives a pipeline-level view. Source and target signals first pass through the frozen physics layer and become hphy in a 15-dimensional mechanism feature space. Gf then learns the latent representation z, which branches into fault prediction and adversarial domain alignment.
 
 中文：
-这一页只保留概念流程，帮助听众先抓主线。源域和目标域信号首先进入 frozen 的物理编码层，得到机制对齐的特征；然后在这个表示空间上进行领域对抗学习，用于对齐和故障预测。
+这一页给出 pipeline 级别的结构。源域和目标域信号首先经过 frozen 的物理编码层，得到 15 维机制特征 hphy；随后 Gf 学习潜在表示 z，并分支到故障预测和领域对抗对齐。
 -->
 
 ---
@@ -307,25 +319,29 @@ After the simplified view, this slide presents the full MDC-DAN architecture. Th
 
 ---
 layout: default
-zoom: 0.84
+zoom: 0.9
 ---
 
 <div class="kicker">Physics-Encoding Layer</div>
 
 # Physics-Encoding Layer
 
-<div class="note mb-3">
-  Φ<sub>phy</sub> is frozen; calculation paths are determined by rotor dynamics, not learned from data.
-</div>
-
 <PhysicsEncoding />
 
-| Formula | Expression |
-|---|---|
-| Layer mapping | $h_{\mathrm{phy}}=\Phi_{\mathrm{phy}}(x)=[\psi_{\mathrm{stat}}(x)\oplus\psi_{\mathrm{mech}}(x)\oplus\psi_{\mathrm{freq}}(x)]^{T}$ |
-| BPFO example | $f_{\mathrm{BPFO}}=\frac{N}{2}f_r\left(1-\frac{d}{D}\cos\alpha\right)$ |
+<div class="formula-grid physics-formula-grid mt-4">
+  <FormulaCard title="Layer mapping">
+    h<sub>phy</sub> = Φ<sub>phy</sub>(x) = [ψ<sub>stat</sub>(x) ⊕ ψ<sub>mech</sub>(x) ⊕ ψ<sub>freq</sub>(x)]<sup>T</sup>
+  </FormulaCard>
+  <FormulaCard title="BPFO example">
+    f<sub>BPFO</sub> = N/2 · f<sub>r</sub>(1 − d/D · cos α)
+  </FormulaCard>
+</div>
 
 <div class="caption mt-2">N: rolling elements; f<sub>r</sub>: shaft frequency; d/D: rolling-element and pitch diameters; α: contact angle.</div>
+
+<div class="key-point mt-3">
+  Key point: frozen Φ<sub>phy</sub> is determined by rotor dynamics, not learned from data.
+</div>
 
 <!--
 English:
@@ -361,14 +377,18 @@ zoom: 0.88
   </div>
 </div>
 
-| Training objective |  |
-|---|---|
-| MDC-DAN | $\mathcal{E}(\theta_f,\theta_y,\theta_d)=\mathcal{L}_y(\theta_f,\theta_y)-\lambda_p\mathcal{L}_d(\theta_f,\theta_d)$ |
+<div class="formula-label mt-4">Training objective</div>
+
+$$
+\mathcal{E}(\theta_f,\theta_y,\theta_d)
+= \mathcal{L}_y(\theta_f,\theta_y)
+- \lambda_p \mathcal{L}_d(\theta_f,\theta_d)
+$$
 
 <div class="caption mt-2">A dynamic λ<sub>p</sub> schedule gradually strengthens adversarial adaptation.</div>
 
-<div class="note mt-3">
-  Difference from vanilla DANN: alignment is performed after physics encoding, so it aligns mechanism-aware features rather than raw statistical patterns.
+<div class="dann-summary mt-3">
+  MDC-DAN aligns mechanism-aware features h<sub>phy</sub>, rather than raw statistical patterns.
 </div>
 
 <!--
@@ -475,7 +495,7 @@ layout: default
 
 <div class="kicker">Robustness & Efficiency</div>
 
-# Stable adversarial weight and lightweight inference
+# Sensitivity and deployment efficiency
 
 <div class="two-grid">
   <figure class="figure-frame">
@@ -526,8 +546,9 @@ zoom: 0.9
 />
 
 <div class="observation-list mt-4">
-  <h3>Observation</h3>
-  <p><strong>MDC-DAN relies on physically meaningful evidence rather than statistical shortcuts.</strong> After adaptation, source and target samples from the same fault class cluster together; SHAP assigns high importance to mechanism-related energy features, especially BPFO and BPFI.</p>
+  <div class="evidence-row"><strong>Observation 1</strong><span>t-SNE shows tighter source-target clustering within the same fault class after adaptation.</span></div>
+  <div class="evidence-row"><strong>Observation 2</strong><span>SHAP assigns high importance to mechanism-related BPFO/BPFI energy features.</span></div>
+  <div class="evidence-row"><strong>Interpretation</strong><span>MDC-DAN relies on physically meaningful evidence rather than statistical shortcuts.</span></div>
 </div>
 
 <!--
@@ -558,6 +579,10 @@ MDC-DAN bridges Sim-to-Real fault diagnosis by combining frozen physics priors w
       <li>Adversarial adaptation aligns residual source-target discrepancy.</li>
       <li>t-SNE and SHAP support physically meaningful decision evidence.</li>
     </ul>
+  </div>
+  <div class="limitation-block">
+    <h2>Limitation</h2>
+    <p>Φ<sub>phy</sub> currently depends on known bearing geometry and characteristic-frequency calculation.</p>
   </div>
   <div class="future-block">
     <h2>Future Work</h2>

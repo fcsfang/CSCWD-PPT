@@ -18,13 +18,35 @@
       </div>
       <div class="edge"></div>
       <div class="node">
-        <span class="label-main">Mechanism-aligned features</span>
-        <span>physics-consistent representation</span>
+        <span class="label-main">h<sub>phy</sub> ∈ R<sup>15</sup></span>
+        <span>mechanism-aligned features</span>
       </div>
       <div class="edge"></div>
-      <div class="node final">
-        <span class="label-main">DANN alignment + fault prediction</span>
-        <span>domain-invariant diagnosis</span>
+      <div class="node">
+        <span class="label-main">G<sub>f</sub></span>
+        <span>feature extractor</span>
+      </div>
+      <div class="edge"></div>
+      <div class="node latent">
+        <span class="label-main">z</span>
+        <span>latent representation</span>
+      </div>
+    </div>
+
+    <div class="branch-area">
+      <div class="branch">
+        <div class="stem"></div>
+        <div class="node head label">
+          <span class="label-main">G<sub>y</sub></span>
+          <span>fault prediction</span>
+        </div>
+      </div>
+      <div class="branch adversarial">
+        <div class="stem"></div>
+        <div class="node head">
+          <span class="label-main">GRL → G<sub>d</sub></span>
+          <span>domain alignment</span>
+        </div>
       </div>
     </div>
   </div>
@@ -39,7 +61,7 @@
 }
 .pipeline {
   display: grid;
-  grid-template-columns: 1.18fr 44px 1fr 44px 1.2fr 44px 1.24fr;
+  grid-template-columns: 1.14fr 34px .98fr 34px .96fr 34px .82fr 34px .82fr;
   align-items: center;
 }
 .signals {
@@ -79,7 +101,8 @@
   border-top: 2px solid var(--primary);
 }
 .target,
-.final {
+.latent,
+.adversarial .head {
   border-top: 2px solid var(--accent);
 }
 .physics {
@@ -98,5 +121,31 @@
   border-left: 7px solid var(--border);
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
+}
+.branch-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 12px;
+  width: 38%;
+  margin-left: auto;
+}
+.branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stem {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+}
+.head {
+  width: 100%;
+  min-height: 56px;
+}
+.label {
+  border-top: 2px solid var(--primary);
 }
 </style>

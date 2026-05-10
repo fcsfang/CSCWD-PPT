@@ -18,26 +18,26 @@ defineProps({
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #fff;
-  padding: 14px 16px;
-  min-height: 126px;
+  padding: 13px 16px;
+  min-height: 104px;
 }
 .title {
-  color: var(--rust);
+  color: var(--primary);
   font-weight: 700;
-  font-size: .78rem;
+  font-size: .82rem;
   text-transform: uppercase;
-  letter-spacing: .03em;
+  letter-spacing: 0;
 }
 .formula {
   margin-top: 12px;
   color: var(--ink);
   font-family: "Times New Roman", "STIX Two Text", serif;
-  font-size: 1.2rem;
+  font-size: 1.26rem;
   line-height: 1.25;
 }
 p {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: .75rem;
+  font-size: .82rem;
 }
 </style>
