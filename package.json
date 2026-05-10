@@ -12,6 +12,7 @@
   "devDependencies": {
     "@slidev/cli": "^52.14.1",
     "@slidev/theme-default": "^0.25.0",
+    "katex": "0.16.45",
     "playwright-chromium": "^1.59.1",
     "slidev-theme-academic": "^2.1.0"
   },

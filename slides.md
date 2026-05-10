@@ -136,17 +136,17 @@ layout: default
   <tbody>
     <tr>
       <td><strong>Noise alignment</strong></td>
-      <td>Statistical discrepancy can be reduced by matching environmental noise rather than fault semantics.</td>
+      <td>May align noise rather than fault semantics.</td>
       <td>Mechanism features anchor the representation before adversarial alignment.</td>
     </tr>
     <tr>
       <td><strong>No mechanism check</strong></td>
-      <td>Black-box feature spaces do not explicitly encode bearing kinematic laws or characteristic fault frequencies.</td>
+      <td>Lacks explicit bearing kinematic constraints.</td>
       <td>Φ<sub>phy</sub> introduces rotor-dynamics priors as a frozen network layer.</td>
     </tr>
     <tr>
       <td><strong>Negative transfer</strong></td>
-      <td>Under variable speed and noisy edge conditions, unconstrained alignment may hurt target diagnosis.</td>
+      <td>Unconstrained alignment may hurt target diagnosis.</td>
       <td>Domain adaptation is applied after physics-consistent encoding.</td>
     </tr>
   </tbody>
@@ -168,31 +168,18 @@ layout: default
 
 # Unsupervised domain adaptation for bearing faults
 
-<div class="problem-formula-grid">
-  <FormulaCard title="Source domain">
-    D<sub>s</sub> = {(x<sub>i</sub><sup>s</sup>, y<sub>i</sub><sup>s</sup>)}<sub>i=1</sub><sup>n<sub>s</sub></sup>
-  </FormulaCard>
-  <FormulaCard title="Target domain">
-    D<sub>t</sub> = {x<sub>j</sub><sup>t</sup>}<sub>j=1</sub><sup>n<sub>t</sub></sup>, &nbsp; Y<sub>t</sub> unavailable during training
-  </FormulaCard>
-  <FormulaCard title="Domain shift">
-    P(X<sub>s</sub>) ≠ P(X<sub>t</sub>)
-  </FormulaCard>
-  <FormulaCard title="Learning objective">
-    f<sup>*</sup> = arg min<sub>f</sub> R<sub>t</sub>(f)
-  </FormulaCard>
-</div>
+<ProblemSetting />
 
-<div class="note mt-5">
-  Target labels are hidden during adaptation and are used only for evaluation.
+<div class="uda-constraint mt-5">
+  Target-domain labels are unavailable during training and used only for evaluation.
 </div>
 
 <!--
 English:
-Here is the formal setting. We have labeled source samples and unlabeled target samples. During training, target labels are strictly hidden. The goal is to learn a representation that is both discriminative for fault classes and invariant across source and target domains.
+Here is the formal setting. We have labeled source samples and unlabeled target samples. The core UDA constraint is highlighted at the bottom: target-domain labels are strictly unavailable during training and used only for final evaluation. The goal is to learn a representation that is both discriminative for fault classes and invariant across source and target domains.
 
 中文：
-这里给出任务形式化。源域样本有故障标签，目标域样本没有标签，训练过程中目标域标签严格不可见。目标是学习一个既能区分故障类别、又能跨源域和目标域保持一致的表示。
+这里给出任务形式化。源域样本有故障标签，目标域样本没有标签。底部高亮的是 UDA 的核心约束：训练过程中目标域标签严格不可见，只在最终评估时使用。目标是学习一个既能区分故障类别、又能跨源域和目标域保持一致的表示。
 -->
 
 ---
@@ -207,11 +194,11 @@ Physics first, alignment second: use rotor-dynamics priors to anchor the represe
 
 <div class="idea-flow mt-10">
   <div class="idea-node">Physical prior</div>
-  <div class="idea-edge"></div>
+  <div class="idea-edge"><span>lock mechanism invariants</span></div>
   <div class="idea-node">Mechanism-aligned representation</div>
-  <div class="idea-edge"></div>
+  <div class="idea-edge"><span>preserve fault evidence</span></div>
   <div class="idea-node">Adversarial adaptation</div>
-  <div class="idea-edge"></div>
+  <div class="idea-edge"><span>align residual shift, not noise</span></div>
   <div class="idea-node">Domain-invariant diagnosis</div>
 </div>
 
@@ -221,10 +208,10 @@ Physics first, alignment second: use rotor-dynamics priors to anchor the represe
 
 <!--
 English:
-The key idea is physics first and alignment second. Mechanism priors constrain what should remain invariant across simulation and real deployment, while adversarial learning adapts what still differs across domains.
+The key idea is physics first and alignment second. Physics priors first lock mechanism invariants, so adversarial learning does not simply align noise with noise. It instead adapts the residual domain difference after fault evidence has been made mechanism-aware.
 
 中文：
-这一页是方法的入口：先物理、后对齐。机制先验约束哪些信息应该跨域保持不变，对抗学习再去适配源域和目标域之间仍然存在的差异。
+这一页是方法的入口：先物理、后对齐。物理先验先锁定不变量，对抗学习再对齐剩余差异，避免把噪声对齐成噪声。
 -->
 
 ---
@@ -582,12 +569,12 @@ MDC-DAN bridges Sim-to-Real fault diagnosis by combining frozen physics priors w
   </div>
   <div class="limitation-block">
     <h2>Limitation</h2>
-    <p>Φ<sub>phy</sub> currently depends on known bearing geometry and characteristic-frequency calculation.</p>
+    <p>Current implementation assumes known bearing geometry; future work addresses unknown-geometry scenarios via blind source adaptation.</p>
   </div>
   <div class="future-block">
     <h2>Future Work</h2>
     <ul>
-      <li>Blind source adaptation for unknown bearing geometry.</li>
+      <li>Blind source adaptation for unknown-geometry scenarios.</li>
       <li>Diffusion-based generation of physically consistent nonstationary data.</li>
     </ul>
   </div>
@@ -597,8 +584,8 @@ MDC-DAN bridges Sim-to-Real fault diagnosis by combining frozen physics priors w
 
 <!--
 English:
-To conclude, MDC-DAN bridges the Sim-to-Real gap by combining a non-learnable physics encoding layer with adversarial domain adaptation. The result is accurate, lightweight, and interpretable target-domain fault diagnosis without target labels. Future work includes blind source adaptation for unknown bearing geometry and diffusion-based generation of physically consistent nonstationary data.
+To conclude, MDC-DAN bridges the Sim-to-Real gap by combining a non-learnable physics encoding layer with adversarial domain adaptation. The current implementation assumes known bearing geometry, and future work addresses unknown-geometry scenarios via blind source adaptation. Another direction is diffusion-based generation of physically consistent nonstationary data.
 
 中文：
-最后总结一下，MDC-DAN 通过非可学习的物理编码层和对抗式领域自适应相结合，缩小数字孪生故障诊断中的 Sim-to-Real gap，实现了无目标标签条件下准确、轻量且可解释的故障诊断。未来工作包括未知轴承几何条件下的 blind source adaptation，以及基于扩散模型生成物理一致的非平稳数据。谢谢大家，欢迎提问。
+最后总结一下，MDC-DAN 通过非可学习的物理编码层和对抗式领域自适应相结合，缩小数字孪生故障诊断中的 Sim-to-Real gap。当前实现假设轴承几何参数已知，后续会通过 blind source adaptation 处理未知几何场景；另一个方向是基于扩散模型生成物理一致的非平稳数据。谢谢大家，欢迎提问。
 -->
