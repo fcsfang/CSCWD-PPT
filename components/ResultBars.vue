@@ -14,6 +14,11 @@
       <div class="value">{{ row.acc.toFixed(2) }}%</div>
       <div class="f1">{{ row.f1 }}</div>
     </div>
+    <div class="comparison-strip">
+      <span>ResNet-18: <strong>65.80%</strong></span>
+      <span class="lift">+28.14 pp</span>
+      <span>MDC-DAN: <strong>93.94%</strong></span>
+    </div>
   </div>
 </template>
 
@@ -74,7 +79,7 @@ const rows = [
   left: min(68%, calc(93.94% + 8px));
   top: 50%;
   transform: translateY(-50%);
-  color: var(--accent);
+  color: #fff;
   font-size: .74rem;
   font-weight: 700;
   white-space: nowrap;
@@ -86,5 +91,27 @@ const rows = [
 .f1 {
   color: var(--muted);
   font-size: .78rem;
+}
+.comparison-strip {
+  display: grid;
+  grid-template-columns: 1fr 110px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  font-size: .88rem;
+  text-align: center;
+}
+.comparison-strip strong {
+  color: var(--primary);
+}
+.lift {
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  padding: 5px 8px;
+  font-weight: 700;
 }
 </style>

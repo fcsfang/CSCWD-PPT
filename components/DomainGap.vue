@@ -2,7 +2,7 @@
   <div class="gap-card">
     <div class="domain source">
       <div class="label">Source Domain</div>
-      <div class="sub">CWRU laboratory data · labeled</div>
+      <div class="sub">CWRU laboratory data · <strong class="source-status">labeled</strong></div>
       <svg viewBox="0 0 360 110" aria-label="source distribution">
         <path class="axis" d="M20 88 H338" />
         <path class="curve source-curve" d="M30 82 C70 78, 82 36, 115 35 C145 34, 151 82, 188 77 C218 72, 230 42, 262 45 C298 49, 304 78, 336 74" />
@@ -17,7 +17,7 @@
     </div>
     <div class="domain target">
       <div class="label">Target Domain</div>
-      <div class="sub">High-speed train data · unlabeled</div>
+      <div class="sub">High-speed train data · <strong class="target-status">unlabeled</strong></div>
       <svg viewBox="0 0 360 110" aria-label="target distribution">
         <path class="axis" d="M20 88 H338" />
         <path class="curve target-curve" d="M28 72 C58 82, 86 53, 116 63 C148 74, 163 23, 201 30 C246 38, 242 78, 278 76 C312 75, 318 42, 340 49" />
@@ -50,6 +50,14 @@
   color: var(--muted);
   font-size: .75rem;
   margin-top: 3px;
+}
+.source-status {
+  color: #007A3D;
+  font-weight: 800;
+}
+.target-status {
+  color: #C2410C;
+  font-weight: 800;
 }
 svg {
   width: 100%;

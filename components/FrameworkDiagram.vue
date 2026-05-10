@@ -11,31 +11,31 @@
       </div>
     </div>
 
-    <div class="connector"></div>
+    <div v-click="1" class="connector physics-step"></div>
 
     <div class="pipeline">
-      <div class="node physics">
+      <div v-click="1" class="node physics physics-step">
         <span class="label-main">Φ<sub>phy</sub></span>
         <span>frozen physics encoding</span>
       </div>
-      <div class="edge"></div>
-      <div class="node">
+      <div v-click="1" class="edge physics-step"></div>
+      <div v-click="1" class="node physics-step">
         <span class="label-main">h<sub>phy</sub></span>
         <span>15-D mechanism feature</span>
       </div>
-      <div class="edge"></div>
-      <div class="node">
+      <div v-click="2" class="edge adaptation-step"></div>
+      <div v-click="2" class="node adaptation-step">
         <span class="label-main">G<sub>f</sub></span>
         <span>feature extractor</span>
       </div>
-      <div class="edge"></div>
-      <div class="node">
+      <div v-click="2" class="edge adaptation-step"></div>
+      <div v-click="2" class="node adaptation-step">
         <span class="label-main">z</span>
         <span>latent representation</span>
       </div>
     </div>
 
-    <div class="branches">
+    <div v-click="2" class="branches adaptation-step">
       <div class="branch">
         <div class="node small">
           <span class="label-main">G<sub>y</sub></span>
@@ -115,6 +115,12 @@
 }
 .physics {
   border-top: 2px solid var(--accent);
+}
+.physics-step {
+  --slidev-click-transition: opacity 180ms ease;
+}
+.adaptation-step {
+  --slidev-click-transition: opacity 180ms ease;
 }
 .edge {
   height: 1px;
