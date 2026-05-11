@@ -13,6 +13,7 @@ themeConfig:
 layout: cover
 hideInToc: true
 class: cover
+coverDate: ""
 ---
 
 <div class="kicker">CSCWD 2026 · Presentation</div>
@@ -25,8 +26,19 @@ class: cover
 Bridging the Sim-to-Real gap by combining physics priors with adversarial domain adaptation.
 </div>
 
-Chuanshan Fang, Hongyan Qian, Yongpeng Lin, Sijie Ning, Zhuqing Xu  
-Nanjing University of Aeronautics and Astronautics · Nanjing University
+<div class="cover-authors">
+<strong>Presenter:</strong> Chuanshan Fang
+</div>
+
+<div class="cover-author-list">
+Authors: Chuanshan Fang, Hongyan Qian, Yongpeng Lin, Sijie Ning, and Zhuqing Xu
+</div>
+
+<div class="cover-affiliations">
+  <div>College of Computer Science and Technology</div>
+  <div>Nanjing University of Aeronautics and Astronautics</div>
+  <div>State Key Laboratory for Novel Software Technology, Nanjing University</div>
+</div>
 
 <div class="cover-summary mt-8">
   Target-domain accuracy: <strong>93.94%</strong> · F1-score: <strong>0.942</strong> · Inference: <strong>4.2 ms/sample</strong>

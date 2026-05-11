@@ -1,6 +1,6 @@
 <template>
   <div class="custom-pagination">
-    {{ $page }} / {{ $nav.total }}
+    {{ $page }}
   </div>
 </template>
 
