@@ -102,6 +102,30 @@
   font-weight: 700;
 }
 
+.cover-logos {
+  position: fixed;
+  top: 24px;
+  right: 34px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  z-index: 5;
+}
+
+.cover-logos img {
+  display: block;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-logos .ieee-logo {
+  height: 50px;
+}
+
+.cover-logos .cscwd-logo {
+  height: 58px;
+}
+
 .cover-authors {
   margin-top: 22px;
   color: var(--text);
@@ -133,6 +157,18 @@
 
 .slidev-layout.cover > div.absolute.bottom-12 {
   display: none !important;
+}
+
+.slidev-layout.cover > .my-auto {
+  transform: none;
+}
+
+.slidev-layout.cover .kicker {
+  position: fixed;
+  top: 42px;
+  left: 44px;
+  z-index: 5;
+  margin: 0;
 }
 
 .outline-list {
@@ -426,6 +462,221 @@
   border-radius: 6px;
 }
 
+.domain-module-figure {
+  margin: 4px 0 0;
+}
+
+.domain-module-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: 22px;
+  align-items: start;
+  margin-top: 10px;
+}
+
+.domain-module-block .dann-summary {
+  margin-top: 12px;
+}
+
+.domain-module-figure img {
+  display: block;
+  width: 100%;
+  max-height: 470px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.domain-module-figure .caption {
+  margin-top: 8px;
+}
+
+.domain-module-explain {
+  padding-top: 2px;
+}
+
+.domain-module-explain .dann-points {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.domain-module-explain .dann-point {
+  border-top: 0;
+  border-left: 3px solid var(--primary);
+  padding: 0 0 0 13px;
+}
+
+.domain-module-explain .dann-point:nth-child(3) {
+  border-left-color: var(--accent);
+}
+
+.domain-module-explain .dann-point h3 {
+  font-size: 1.02rem;
+}
+
+.domain-module-explain .dann-point p {
+  font-size: .88rem;
+  line-height: 1.35;
+}
+
+.objective-equation {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  padding: 16px 18px;
+  color: var(--text);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.34rem;
+  line-height: 1.35;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.objective-equation sub {
+  font-size: .58em;
+  vertical-align: -0.28em;
+}
+
+.math-calligraphic {
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.physics-encoding-block {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 4px;
+}
+
+.physics-module-figure {
+  margin: 0;
+}
+
+.physics-module-figure img {
+  display: block;
+  width: 100%;
+  max-height: 430px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.physics-module-figure .caption {
+  margin-top: 6px;
+  font-size: .7rem;
+}
+
+.physics-detail-panel {
+  display: grid;
+  gap: 7px;
+}
+
+.physics-feature-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-top: 2px solid var(--primary);
+  font-size: .64rem;
+}
+
+.physics-feature-table th {
+  color: var(--text);
+  font-weight: 700;
+  padding: 5px 7px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.physics-feature-table td {
+  color: var(--muted);
+  padding: 5px 7px;
+  line-height: 1.18;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+.physics-feature-table td:first-child,
+.physics-feature-table td:nth-child(2) {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.physics-feature-table .mechanism td:first-child,
+.physics-feature-table .mechanism td:nth-child(2) {
+  color: var(--accent);
+}
+
+.physics-formula-panel {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  padding: 7px 10px;
+}
+
+.physics-equation {
+  margin-top: 3px;
+  color: var(--text);
+  font-family: "Times New Roman", Times, serif;
+  font-size: .91rem;
+  line-height: 1.2;
+}
+
+.physics-formula-panel .formula-label {
+  font-size: .76rem;
+}
+
+.physics-formula-panel .caption {
+  margin-top: 4px;
+  font-size: .66rem;
+  line-height: 1.22;
+}
+
+.physics-detail-panel .key-point {
+  padding: 7px 10px;
+  font-size: .78rem;
+  line-height: 1.22;
+  border-radius: 5px;
+}
+
+.physics-equation sub {
+  font-size: .62em;
+  vertical-align: -0.24em;
+}
+
+.physics-equation sup {
+  font-size: .62em;
+  vertical-align: .45em;
+}
+
+.frac {
+  display: inline-grid;
+  grid-template-rows: auto auto;
+  place-items: center;
+  vertical-align: middle;
+  margin: 0 2px;
+  font-size: .86em;
+  line-height: 1;
+}
+
+.frac span:first-child {
+  border-bottom: 1px solid currentColor;
+  padding: 0 3px 1px;
+}
+
+.frac span:last-child {
+  padding-top: 1px;
+}
+
 .note {
   border-left: 4px solid var(--accent);
   background: #FFFFFF;
@@ -482,6 +733,15 @@
   color: var(--primary);
   font-size: 3rem;
   font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.slidev-layout.cover h2 {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .slidev-layout.end h1 {
@@ -506,11 +766,13 @@
 }
 
 .thesis {
-  margin-top: 18px;
+  max-width: 860px;
+  margin: 18px auto 0;
   color: var(--accent);
   font-size: 1.03rem;
   font-weight: 650;
   line-height: 1.35;
+  text-align: center;
 }
 
 .research-table,
@@ -854,8 +1116,8 @@
 .takeaway-layout,
 .conclusion-grid {
   display: grid;
-  grid-template-columns: 1.05fr .9fr .95fr;
-  gap: 22px;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 34px;
   align-items: start;
   margin-top: 18px;
   text-align: left;
@@ -924,4 +1186,30 @@
 
 .slidev-layout.end .limitation-block p {
   text-align: center;
+}
+
+.slidev-layout.thanks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.slidev-layout.thanks h1 {
+  font-size: 3rem;
+  margin-bottom: 18px;
+}
+
+.slidev-layout.thanks h2 {
+  color: var(--primary);
+  font-size: 1.75rem;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.contact-email {
+  color: var(--muted);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0;
 }

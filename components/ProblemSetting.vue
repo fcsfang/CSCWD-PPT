@@ -71,6 +71,6 @@ const items = [
 }
 
 .problem-formula :deep(.katex) {
-  font-size: 1.72rem;
+  font-size: 1.42rem;
 }
 </style>

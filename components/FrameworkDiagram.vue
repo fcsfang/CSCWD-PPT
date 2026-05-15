@@ -34,6 +34,7 @@
     </div>
 
     <div class="branch-area">
+      <div class="branch-connector" aria-hidden="true"></div>
       <div class="branch">
         <div class="stem"></div>
         <div class="node head label">
@@ -105,6 +106,19 @@
 .adversarial .head {
   border-top: 2px solid var(--accent);
 }
+.latent {
+  position: relative;
+}
+.latent::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+  transform: translateX(-50%);
+}
 .physics {
   border-top: 2px solid var(--accent);
 }
@@ -123,27 +137,59 @@
   border-bottom: 4px solid transparent;
 }
 .branch-area {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   align-items: start;
-  margin-top: 12px;
+  margin-top: 24px;
+  padding-top: 42px;
   width: 38%;
   margin-left: auto;
 }
+.branch-connector {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -24px;
+  height: 66px;
+  pointer-events: none;
+}
+.branch-connector::before {
+  content: "";
+  position: absolute;
+  left: 75%;
+  top: 0;
+  width: 1px;
+  height: 45px;
+  background: var(--border);
+}
+.branch-connector::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 45px;
+  height: 1px;
+  background: var(--border);
+}
 .branch {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .stem {
+  position: absolute;
+  top: -21px;
   width: 1px;
-  height: 20px;
+  height: 21px;
   background: var(--border);
 }
 .head {
   width: 100%;
   min-height: 56px;
+  margin-top: 0;
 }
 .label {
   border-top: 2px solid var(--primary);

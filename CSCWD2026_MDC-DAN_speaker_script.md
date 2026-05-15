@@ -1,489 +1,423 @@
-# CSCWD 2026 MDC-DAN Presentation Speaker Script
+# CSCWD 2026 MDC-DAN 现场逐字口播稿
 
-Paper: MDC-DAN: Mechanism-Data Collaborative Domain Adaptation for Sim-to-Real Fault Diagnosis in Digital Twins
+论文题目：MDC-DAN: Mechanism-Data Collaborative Domain Adaptation for Sim-to-Real Fault Diagnosis in Digital Twins
 
-Recommended total duration: about 13 minutes  
-Safe range: 12-15 minutes  
-Speaking strategy: do not read every word on the slides. Use each slide to deliver one message, then move on.
+用途说明：这是一份“现场逐字朗读版”口播稿。每一页都按当前 `slides.md` 的页面顺序写好，不再使用省略式提示。你可以直接按每页的 “Spoken script” 一字一句讲完。
 
-## Quick Timing Plan
+建议总时长：约 13-15 分钟  
+语速建议：比平时读英文略慢，尤其在公式、数据和表格页停顿 1-2 秒。  
+注意：`Chinese note` 只帮助你理解，不需要在现场读出。
 
-| Slide | Topic | Suggested time |
-|---|---:|---:|
-| 1 | Title | 35 s |
-| 2 | Outline | 25 s |
-| 3 | Motivation | 50 s |
-| 4 | Research Gap | 50 s |
-| 5 | Problem Setting | 50 s |
-| 6 | Key Idea | 45 s |
-| 7 | Contributions | 45 s |
-| 8 | Conceptual Pipeline | 45 s |
-| 9 | Full Architecture | 40 s |
-| 10 | Physics-Encoding Layer | 65 s |
-| 11 | Domain-Adversarial Module | 70 s |
-| 12 | Experimental Setup | 45 s |
-| 13 | Main Results | 70 s |
-| 14 | Robustness & Efficiency | 45 s |
-| 15 | Interpretability | 60 s |
-| 16 | Conclusion | 35 s |
+## Overall Timing
 
-Total: about 12.9 minutes
+| Slide | Topic | Time |
+|---|---|---:|
+| 1 | Title | 40 s |
+| 2 | Outline | 30 s |
+| 3 | Motivation | 65 s |
+| 4 | Research Gap | 75 s |
+| 5 | Problem Setting | 60 s |
+| 6 | Key Idea | 60 s |
+| 7 | Contributions | 60 s |
+| 8 | Full Architecture | 55 s |
+| 9 | Physics-Encoding Layer | 90 s |
+| 10 | Domain-Adversarial Module | 90 s |
+| 11 | Experimental Setup | 80 s |
+| 12 | Main Results | 95 s |
+| 13 | Robustness & Efficiency | 70 s |
+| 14 | Interpretability | 80 s |
+| 15 | Conclusion | 50 s |
+| 16 | Thank You | 20 s |
 
 ---
 
 ## Slide 1 - Title
 
-Suggested time: 35 seconds
+Time: 40 seconds
 
-Main message: introduce the topic and the central thesis.
+Spoken script:
 
-English script:
+Good afternoon, distinguished professors, teachers, and fellow students. I am Chuanshan Fang from Nanjing University of Aeronautics and Astronautics.
 
-Good morning / afternoon, everyone. I am Chuanshan Fang from Nanjing University of Aeronautics and Astronautics. Today I will present our work, MDC-DAN: Mechanism-Data Collaborative Domain Adaptation for Sim-to-Real Fault Diagnosis in Digital Twins.
+Today, I will present our work entitled MDC-DAN: Mechanism-Data Collaborative Domain Adaptation for Sim-to-Real Fault Diagnosis in Digital Twins.
 
-The key problem we address is the Sim-to-Real gap in fault diagnosis. A model trained on clean laboratory or digital-twin data often performs poorly when deployed on noisy physical assets. Our main idea is to combine physics priors from rotor dynamics with adversarial domain adaptation, so that the model can transfer from labeled source data to unlabeled real-world target data.
+The central problem of this work is the Sim-to-Real gap. In fault diagnosis, a model trained on clean laboratory or digital-twin data often cannot be directly deployed to noisy physical assets, because the source-domain and target-domain data distributions are different.
 
-As a preview, MDC-DAN achieves 93.94% target-domain accuracy, an F1-score of 0.942, and an average inference time of 4.2 milliseconds per sample.
+To address this problem, our key idea is to combine physics priors from rotor dynamics with adversarial domain adaptation. In this way, the model can use labeled source-domain data and unlabeled target-domain data at the same time, and improve target-domain generalization.
 
-Chinese reminder:
+Chinese note:
 
-这一页只讲三件事：我是谁、题目是什么、核心思想是什么。不要展开实验细节，结果数字只是 teaser。
-
-Time control:
-
-If running late, skip the author list and only say: "The key idea is to combine physics priors with adversarial domain adaptation."
+开场要稳。第一页只讲背景和核心思想，不展开方法细节。IEEE 和 CSCWD logo 在右上角，不需要专门解释。
 
 ---
 
 ## Slide 2 - Presentation Outline
 
-Suggested time: 25 seconds
+Time: 30 seconds
 
-Main message: give the audience a roadmap.
+Spoken script:
 
-English script:
+This presentation is organized into four parts.
 
-This talk is organized into four parts. First, I will introduce the background and motivation, especially why the Sim-to-Real gap is difficult for digital-twin fault diagnosis. Second, I will present the proposed method, MDC-DAN. Third, I will show the experimental results and analysis, including robustness, efficiency, t-SNE, and SHAP interpretability. Finally, I will conclude with the main takeaway and future work.
+First, I will introduce the background and motivation, especially why the Sim-to-Real gap is a critical challenge for digital-twin fault diagnosis.
 
-Chinese reminder:
+Second, I will present the proposed method, MDC-DAN, including the Physics-Encoding Layer and the Domain-Adversarial Module.
 
-目录页要快，不要解释技术细节。给听众一个路线图即可。
+Third, I will show the experimental setup, main results, robustness analysis, efficiency analysis, and interpretability results.
 
-Time control:
+Finally, I will conclude with the main takeaway, current limitation, and future work.
 
-Keep this under 30 seconds.
+Chinese note:
+
+这一页是路线图，语速可以快一些，但每一项都要读出来。
 
 ---
 
-## Slide 3 - Motivation: Sim-to-Real Gap
+## Slide 3 - Motivation
 
-Suggested time: 50 seconds
+Time: 65 seconds
 
-Main message: same fault mechanism, but different data distribution.
+Spoken script:
 
-English script:
+This slide explains the motivation of our work.
 
-The motivation comes from a common deployment problem in digital-twin diagnosis. In the source domain, we usually have laboratory or digital-twin data. These signals are relatively clean, controlled, and labeled. In the target domain, however, the data come from real physical assets, such as high-speed train bearings. These signals are noisy, unlabeled, and collected under variable-speed operating conditions.
+In digital-twin fault diagnosis, the source domain usually comes from laboratory or digital-twin environments. These data are clean, controlled, and labeled, so they are suitable for supervised training.
 
-Although the underlying bearing fault mechanism is the same, the data distribution is different. This is why we write it as P of X source is not equal to P of X target. A classifier trained only on the source domain may learn source-specific statistics, and then fail when deployed to the target domain.
+The target domain is different. It comes from real physical assets, such as high-speed train bearings. The signals are noisy, the operating speed may vary, and target labels are unavailable during training.
 
-So the key challenge is not only fault classification. It is target-domain generalization under distribution shift.
+The key observation is shown in the center. The bearing fault mechanism can be the same, but the data distributions are different. In mathematical form, P of X source is not equal to P of X target.
 
-Chinese reminder:
+So the challenge is not only fault classification. It is target-domain generalization under Sim-to-Real distribution shift.
+Chinese note:
 
-重点解释图的三部分：左边源域 clean/labeled/controlled，中间分布偏移，右边目标域 noisy/unlabeled/variable-speed。核心句是：故障机理相同，但数据分布不同。
-
-Time control:
-
-Do not describe every visual element. Spend most of the time on P(Xs) != P(Xt).
+这一页要把图讲完整：左边源域，右边目标域，中间是分布偏移。核心句是：same fault mechanism, different data distribution。
 
 ---
 
 ## Slide 4 - Research Gap
 
-Suggested time: 50 seconds
+Time: 75 seconds
 
-Main message: pure data-driven domain alignment can align the wrong evidence.
+Spoken script:
 
-English script:
+This slide summarizes the research gap of pure data-driven domain adaptation.
 
-Existing domain adaptation methods are useful, but many of them are mainly data-driven. In industrial fault diagnosis, this can be risky.
+The table has three rows. Each row shows one limitation, why it matters, and how MDC-DAN responds.
 
-First, noise alignment may happen. If the model only tries to make source and target features look similar, it may align noise patterns rather than fault semantics. Second, there is no explicit mechanism check. The model does not know whether the aligned features are consistent with bearing kinematics. Third, unconstrained alignment can even cause negative transfer, where adaptation hurts target-domain diagnosis.
+First, noise alignment. If a model only tries to make source and target features look similar, it may align noise patterns rather than fault semantics. MDC-DAN responds by using mechanism features as anchors before adversarial alignment.
 
-MDC-DAN responds to these three issues by adding a physics-based anchor before adversarial alignment. In other words, we do not align raw statistical patterns directly. We first transform the signal into mechanism-aware features.
+Second, no mechanism check. Pure data-driven methods usually do not explicitly check whether the learned features follow bearing kinematics. MDC-DAN introduces Phi-phy, a frozen Physics-Encoding Layer, to embed rotor-dynamics priors into the network.
 
-Chinese reminder:
+Third, negative transfer. Unconstrained alignment may even hurt target-domain diagnosis. MDC-DAN reduces this risk by applying domain adaptation after physics-consistent encoding.
 
-这一页要把问题讲清楚：不是说 DA 没用，而是说纯数据驱动 DA 在噪声环境中可能对齐错东西。后面方法就是为了解决这个问题。
+The main message is: distribution alignment is useful, but it should be guided by physical consistency.
+Chinese note:
 
-Time control:
-
-If short on time, summarize the three limitations as: noise alignment, no mechanism check, and negative transfer.
+这一页一定要逐行解释表格，不能只说“有三个问题”。老师指出的就是这里。按三行讲：noise alignment、no mechanism check、negative transfer，每行都解释“问题是什么、为什么重要、MDC-DAN 怎么解决”。
 
 ---
 
 ## Slide 5 - Problem Setting
 
-Suggested time: 50 seconds
+Time: 50 seconds
 
-Main message: this is unsupervised domain adaptation.
+Spoken script:
 
-English script:
+This slide gives the formal problem setting. The task is unsupervised domain adaptation for bearing fault diagnosis.
 
-Here is the formal problem setting. We have a labeled source domain, denoted as Ds, where each source sample has a fault label. We also have an unlabeled target domain, denoted as Dt, collected from physical assets.
+On the source-domain side, we have labeled samples. Each source sample contains a vibration signal segment and a fault label.
 
-The important assumption is that the marginal distributions are different: P of X source is not equal to P of X target. This distribution shift is caused by speed variation, environmental noise, and differences between laboratory and real operating conditions.
+On the target-domain side, we have unlabeled samples from real operating conditions. During training, target-domain labels are not available.
 
-The goal is to learn a diagnostic function that minimizes target-domain risk. However, target-domain labels are unavailable during training and are used only for final evaluation. This is the key constraint of unsupervised domain adaptation.
+The central assumption is domain shift: P of X source is not equal to P of X target. This shift comes from speed variation, noise, and the difference between laboratory and real deployment environments.
 
-Chinese reminder:
+The goal is to learn a diagnostic function that performs well on the target domain. The highlighted constraint is the key point: target-domain labels are hidden during training and used only for evaluation.
+Chinese note:
 
-强调 UDA 的核心：训练时没有目标域标签。目标域标签只能评估用，不能参与训练。公式不要逐字念，只解释含义。
-
-Time control:
-
-Spend no more than 15 seconds on the mathematical notation.
+这页要强调 UDA 设定。目标域标签训练时不可见，这是实验严谨性的关键。
 
 ---
 
 ## Slide 6 - Key Idea
 
-Suggested time: 45 seconds
+Time: 60 seconds
 
-Main message: physics first, alignment second.
+Spoken script:
 
-English script:
+This slide gives the key idea of MDC-DAN.
 
-The key idea of MDC-DAN is very simple: physics first, alignment second.
+The idea is: physics first, alignment second.
 
-We first use physical priors from rotor dynamics to lock mechanism invariants. This produces a mechanism-aligned representation, so that important fault evidence is preserved. Then adversarial adaptation is applied to align the remaining source-target discrepancy.
+First, physical priors from rotor dynamics lock mechanism invariants. For bearing diagnosis, the stable evidence is not arbitrary waveform shape, but energy patterns around theoretical fault frequencies.
 
-This order is important. If we align data too early, the model may align noise with noise. But if we first constrain the representation with physical mechanisms, adversarial learning focuses on the residual domain gap rather than arbitrary statistical patterns.
+Second, the signal is transformed into a mechanism-aligned representation, so important fault evidence is preserved across domains.
 
-Chinese reminder:
+Third, adversarial adaptation is applied after physics encoding. Therefore, the model aligns the residual source-target gap in a mechanism-aware feature space.
 
-这一页是整篇报告的灵魂。要讲出顺序为什么重要：先物理约束，后对抗对齐。避免把噪声当作故障特征来对齐。
+This order is important. Physics priors reduce the risk of aligning noise with noise, and adversarial learning adapts what still differs across domains.
+Chinese note:
 
-Time control:
-
-Pause briefly after saying "physics first, alignment second."
+这一页是核心思想。要讲清楚顺序为什么重要：先机理、后对齐。
 
 ---
 
 ## Slide 7 - Contributions
 
-Suggested time: 45 seconds
+Time: 60 seconds
 
-Main message: three contributions form a closed loop with the research gaps.
+Spoken script:
 
-English script:
+This slide summarizes three contributions.
 
-Our work makes three main contributions.
+First, we design a physics-embedded network structure. The frozen Physics-Encoding Layer embeds bearing kinematic priors at the network input, addressing the lack of mechanism check.
 
-First, we design a physics-embedded network structure. The Physics-Encoding Layer is frozen and embeds bearing kinematic priors directly into the network input.
+Second, we propose collaborative adversarial adaptation. Instead of aligning raw signals, the model aligns residual source-target discrepancy after physics encoding, reducing the risk of noise alignment.
 
-Second, we propose collaborative adversarial adaptation. Instead of aligning raw signals, the model aligns the residual source-target discrepancy after physics encoding.
+Third, we provide trustworthy interpretability. t-SNE and SHAP are used to verify whether the decision evidence is physically meaningful.
 
-Third, we provide trustworthy interpretability. Through t-SNE and SHAP, we verify that the model relies on physically meaningful evidence rather than environmental noise.
+Together, these contributions connect mechanism consistency, domain adaptation, and trustworthy decision evidence.
+Chinese note:
 
-Together, these three contributions correspond to the three gaps discussed earlier: mechanism consistency, safer alignment, and trustworthy decision evidence.
-
-Chinese reminder:
-
-三点贡献要和第 4 页呼应：C1 解决无机理约束，C2 降低噪声对齐，C3 验证没有学偏。
-
-Time control:
-
-Do not over-explain here. Details are in the following method slides.
+第 7 页和第 4 页要形成闭环：C1 对 no mechanism check，C2 对 noise alignment，C3 对 negative transfer risk。
 
 ---
 
-## Slide 8 - Conceptual Pipeline
+## Slide 8 - Full Architecture of MDC-DAN
 
-Suggested time: 45 seconds
+Time: 55 seconds
 
-Main message: show the high-level data flow before the full architecture.
+Spoken script:
 
-English script:
+This slide shows the full architecture of MDC-DAN.
 
-This slide gives a simplified pipeline of MDC-DAN.
+The architecture has two main parts.
 
-Both source and target vibration signals first pass through the frozen Physics-Encoding Layer, denoted as Phi-phy. This layer converts the raw signal into a 15-dimensional mechanism-aligned feature vector, h-phy.
+The left part is the Physics-Encoding Layer. It receives raw vibration signals and extracts physics-aligned features. This part is non-learnable, and its calculation paths are determined by rotor dynamics.
 
-Then the feature extractor Gf maps h-phy into a latent representation z. From z, the network has two branches: the label predictor Gy performs fault classification, and the GRL plus domain discriminator Gd performs adversarial domain alignment.
+The right part is the Trainable Domain-Adversarial Module. It learns domain-invariant latent features while preserving source-domain fault classification ability.
 
-So the whole pipeline is: signal, physics encoding, latent feature learning, and then joint fault prediction and domain adaptation.
+Therefore, MDC-DAN is a dual-stage design: physical laws first constrain the representation, and data-driven adversarial learning then adapts it across domains.
+Chinese note:
 
-Chinese reminder:
-
-这一页讲流程，不讲公式。听众要先知道信号怎么走：Source/Target -> Phi_phy -> h_phy -> Gf -> z -> Gy/Gd。
-
-Time control:
-
-Keep this as a transition slide. The details come next.
+图很复杂，但口播只讲左右两部分。左边 frozen physics，右边 trainable adversarial。最后落到 mechanism-data collaboration。
 
 ---
 
-## Slide 9 - Full Architecture of MDC-DAN
+## Slide 9 - Physics-Encoding Layer
 
-Suggested time: 40 seconds
+Time: 90 seconds
 
-Main message: connect the conceptual pipeline to the paper architecture.
+Spoken script:
 
-English script:
+Now I will explain the Physics-Encoding Layer in more detail.
 
-Here is the full architecture of MDC-DAN. The left part is the Physics-Encoding Layer. It transforms raw vibration signals into physics-aligned embeddings. The right part is the trainable Domain-Adversarial Module, which learns domain-invariant latent features through adversarial backpropagation.
+The left side shows the physical encoding process. MDC-DAN first converts the vibration signal into mechanism-informed features, instead of directly feeding the raw signal into a fully learnable network.
 
-The key point is the dual-stage design. The first stage is non-learnable and mechanism-driven. The second stage is learnable and data-driven. Their collaboration allows the model to use physical knowledge while still adapting to real target-domain data.
+Starting from the vibration signal, the layer performs envelope spectrum analysis. Bearing geometry provides physical prior information, and the characteristic-frequency formula gives calculated fault frequencies. The model then extracts energy around these meaningful frequency locations.
 
-Chinese reminder:
+The right side summarizes the output: a fifteen-dimensional physics-aligned feature vector.
 
-不要细讲图中每一个小模块，讲左右两部分：左边物理编码，右边对抗模块。强调 non-learnable + trainable 的协同。
+The first row is time statistics, from f-one to f-six, describing vibration severity and impulsiveness.
 
-Time control:
+The second row is mechanism energy, from f-seven to f-twelve. These are energy ratios around BPFO, BPFI, BSF, FTF, and their second harmonics. This is the core physical part.
 
-This slide should be short. It prepares for Slide 10 and Slide 11.
+The third row is frequency statistics, from f-thirteen to f-fifteen, describing the global frequency-distribution shape.
 
----
+The first formula gives the layer mapping: h-phy equals Phi-phy of x. The second formula gives BPFO as an example. Here, N is the number of rolling elements, f-r is shaft frequency, d and D describe bearing geometry, and alpha is the contact angle.
 
-## Slide 10 - Physics-Encoding Layer
+The key point is that Phi-phy is frozen. It is determined by rotor dynamics, not learned from data.
+Chinese note:
 
-Suggested time: 65 seconds
-
-Main message: Phi-phy is frozen, non-learnable, and determined by rotor dynamics.
-
-English script:
-
-Now let us look at the Physics-Encoding Layer in more detail.
-
-Unlike standard deep models that feed raw signals directly into learnable convolutional layers, MDC-DAN first maps the raw vibration signal into a 15-dimensional physical feature vector. This vector contains three groups of features.
-
-The first group is time-domain statistics, such as RMS, kurtosis, skewness, peak-to-peak value, shape factor, and impulse factor. These describe general vibration severity and impulsiveness.
-
-The second group is mechanism energy features. These are energy ratios around theoretical bearing fault frequencies, including BPFO, BPFI, BSF, FTF, and their second harmonics. This is the most important part because it directly corresponds to bearing fault mechanisms.
-
-The third group is frequency-domain statistics, such as spectral centroid, spectral RMS, and spectral variance.
-
-The mapping can be written as h-phy equals Phi-phy of x, which concatenates statistical, mechanism, and frequency features. Importantly, Phi-phy is frozen. Its calculation paths are determined by rotor dynamics, not learned from data.
-
-For example, BPFO depends on the number of rolling elements N, shaft frequency fr, rolling element diameter d, pitch diameter D, and contact angle alpha. This formula explicitly links the neural input to bearing kinematics.
-
-Chinese reminder:
-
-这一页非常关键。要强调不是普通手工特征，而是 frozen / non-learnable layer。BPFO 公式只解释变量含义，不要推导。
-
-Time control:
-
-This page can take a little longer, but keep it under 70 seconds.
-
-Pronunciation:
-
-BPFO: "B-P-F-O"  
-BPFI: "B-P-F-I"  
-Phi-phy: "Phi physical" or "Phi phy"
+这一页现在先讲左侧论文配图：vibration signal、envelope spectrum、bearing geometry、calculated fault frequencies、mechanism energy。然后再讲右侧三类特征和两个公式。重点仍然是 frozen Phi-phy 由轴承动力学决定，不是从数据中学习出来的。
 
 ---
 
-## Slide 11 - Domain-Adversarial Module
+## Slide 10 - Domain-Adversarial Module
 
-Suggested time: 70 seconds
+Time: 90 seconds
 
-Main message: DANN is applied after physics encoding.
+Spoken script:
 
-English script:
+After physics encoding, h-phy is fed into the Domain-Adversarial Module.
 
-After physics encoding, h-phy is fed into the trainable Domain-Adversarial Module.
+The left side shows the trainable module cropped from the overall architecture. It starts from the fifteen-dimensional mechanism-aware feature vector produced by the Physics-Encoding Layer.
 
-This module follows the standard DANN logic. The feature extractor Gf maps the 15-dimensional physics-aligned features into a latent space. The label predictor Gy uses the source-domain labels to preserve fault-discriminative information. The domain discriminator Gd tries to distinguish whether a feature comes from the source domain or the target domain.
+The input first enters the feature extractor, which maps it into a latent representation. This representation then connects to two objectives.
 
-The Gradient Reversal Layer, or GRL, creates the adversarial game. During backpropagation, it makes Gf learn features that can fool Gd. As a result, the latent representation becomes more domain-invariant.
+The upper branch is the label predictor. It predicts the fault category using source-domain labels.
 
-The training objective combines the classification loss Ly and the domain adversarial loss Ld. The trade-off parameter lambda-p follows a dynamic schedule. At the beginning of training, lambda-p is close to zero, so the immature discriminator does not introduce unstable gradients. As training progresses, lambda-p increases and domain alignment becomes stronger.
+The lower branch is the domain-adversarial branch. It contains the Gradient Reversal Layer and the domain discriminator, which predicts whether a feature comes from source or target.
 
-The key difference from vanilla DANN is this: MDC-DAN aligns mechanism-aware features h-phy, rather than raw statistical patterns.
+The adversarial logic is simple: G-d tries to distinguish domains, while GRL makes G-f learn features that fool G-d. As a result, the latent representation becomes more domain-invariant.
 
-Chinese reminder:
+The training objective combines classification loss and domain adversarial loss, with lambda-p controlling the alignment strength.
 
-先讲 Gf/Gy/Gd/GRL 的角色，再讲动态 lambda。最后一定要落到区别：不是 raw signal 上做 DANN，而是在物理编码后的特征上做 DANN。
+The key difference from vanilla DANN is that MDC-DAN aligns mechanism-aware features, rather than raw statistical patterns.
+Chinese note:
 
-Time control:
-
-If time is short, skip the formula details and keep the Gf-Gy-Gd-GRL logic.
-
----
-
-## Slide 12 - Experimental Setup
-
-Suggested time: 45 seconds
-
-Main message: source is labeled CWRU; target is unlabeled high-speed train data.
-
-English script:
-
-We evaluate MDC-DAN in a cross-domain high-speed rail maintenance scenario.
-
-The source domain is the public CWRU bearing dataset, with 12,880 labeled samples covering normal, inner race, outer race, and ball faults. The target domain contains 1,274 unlabeled samples from actual high-speed train bearings, around 600 rpm.
-
-For preprocessing, signals are Z-score normalized and segmented using a sliding window of length 2048 with 50% overlap. The model is implemented in PyTorch, trained on an RTX 3090 GPU using Adam with a learning rate of 1e-3, batch size 64, for 50 epochs.
-
-The most important protocol is that target labels are hidden during training and used only for final target-domain evaluation.
-
-Chinese reminder:
-
-这一页的关键是实验协议，不是硬件参数。目标域标签不可见一定要讲清楚。
-
-Time control:
-
-Keep under 45 seconds. Do not read the whole table line by line.
+这一页现在先讲左侧论文模块图：physics-aligned input、feature extractor、label predictor、GRL、domain discriminator。再讲右侧三点和训练目标。重点强调它不是直接对齐原始信号，而是在 Physics-Encoding Layer 之后对齐机制感知特征。
 
 ---
 
-## Slide 13 - Main Results
+## Slide 11 - Experimental Setup
 
-Suggested time: 70 seconds
+Time: 80 seconds
 
-Main message: MDC-DAN substantially outperforms source-only baselines.
+Spoken script:
 
-English script:
+This slide presents the experimental setup.
 
-This is the main quantitative result.
+The table has four rows: source domain, target domain, preprocessing, and training.
 
-We compare MDC-DAN with traditional machine learning baselines, including SVM and Random Forest, and deep learning baselines, including CNN and ResNet-18. These baselines are trained on source-domain data and directly tested on the target domain.
+The source domain is the CWRU bearing dataset. It contains twelve thousand eight hundred and eighty labeled samples, including normal, inner race fault, outer race fault, and ball fault. It provides labeled laboratory knowledge.
 
-Traditional machine learning models suffer severely from the domain shift, with accuracy below 50%. CNN and ResNet-18 perform better, but still remain below 70%, which indicates that simply using a deeper neural network is not enough to solve the Sim-to-Real gap.
+The target domain is real high-speed train bearing data, around six hundred RPM. It contains one thousand two hundred and seventy-four target samples, treated as unlabeled during training. This tests Sim-to-Real transfer under realistic noise.
 
-In contrast, MDC-DAN achieves 93.94% target-domain accuracy and an F1-score of 0.942. Compared with ResNet-18, the accuracy improvement is 28.14 percentage points.
+For preprocessing, we use Z-score normalization and a sliding window with length L equals two thousand and forty-eight and fifty percent overlap.
 
-This result supports two hypotheses. First, the Physics-Encoding Layer extracts robust mechanism anchors, such as BPFO and BPFI energy ratios. Second, adversarial adaptation successfully aligns the residual distribution gap for target-domain generalization.
+For training, the model uses PyTorch, RTX thirty ninety GPU, Adam optimizer, learning rate one e minus three, batch size sixty-four, and fifty epochs.
 
-Chinese reminder:
+The key protocol is at the bottom: target labels are hidden during training and used only for final evaluation.
+Chinese note:
 
-不要逐项读表。先说 baselines 都低，再说 MDC-DAN 93.94% 和 0.942，最后解释为什么：物理锚点 + 对抗对齐。
-
-Time control:
-
-This is one of the most important slides. You can spend about 70 seconds here.
+这一页是表格页，也要逐行解释。特别强调 target labels hidden during training。
 
 ---
 
-## Slide 14 - Robustness and Deployment Efficiency
+## Slide 12 - Main Results
 
-Suggested time: 45 seconds
+Time: 95 seconds
 
-Main message: the method is robust to lambda and efficient enough for edge deployment.
+Spoken script:
 
-English script:
+This slide shows the main diagnostic results on the real-world target domain.
 
-Besides accuracy, we also evaluate robustness and deployment efficiency.
+The chart compares different methods by target-domain accuracy. The key result is that MDC-DAN achieves ninety-three point nine four percent accuracy, an F-one score of zero point nine four two, and improves over ResNet eighteen by twenty-eight point one four percentage points.
 
-For robustness, we study the adversarial trade-off parameter lambda. The best performance appears around 0.5 to 0.7, and the accuracy remains stable across a relatively wide range from 0.3 to 0.8. If lambda is too small, domain alignment is weak. If lambda is too large, the model may focus too much on confusing the discriminator and hurt classification.
+The baselines show the difficulty of the task. SVM reaches forty-two point one five percent, and Random Forest reaches forty-eight point six two percent. These traditional methods suffer strongly from the source-target shift.
 
-The dynamic lambda-p schedule is also important because it avoids unstable adversarial gradients at the beginning of training.
+CNN improves to sixty-one point three zero percent, and ResNet eighteen reaches sixty-five point eight zero percent. However, deeper source-only networks still cannot solve the domain shift by themselves.
 
-For efficiency, MDC-DAN achieves an average inference time of 4.2 milliseconds per sample. Compared with heavier 2D-CNN pipelines that require image conversion, the computational cost is reduced by about 60%, which makes the method more suitable for edge deployment.
+In contrast, MDC-DAN combines mechanism features with domain adaptation. This result suggests that physics-grounded representation and adversarial alignment jointly improve target-domain generalization.
+Chinese note:
 
-Chinese reminder:
-
-这里讲两个工程价值：鲁棒性和效率。动态 lambda 是训练稳定性的细节，4.2 ms/sample 是部署价值。
-
-Time control:
-
-If time is short, mention only stable lambda range and 4.2 ms/sample.
+这一页是结果页，不能只读三个 KPI。要解释每个 baseline 为什么低，以及 MDC-DAN 为什么高。注意说 “percentage points”，不要说 percent improvement。
 
 ---
 
-## Slide 15 - Interpretability: t-SNE and SHAP
+## Slide 13 - Robustness and Efficiency
 
-Suggested time: 60 seconds
+Time: 70 seconds
 
-Main message: the model makes decisions based on physically meaningful evidence.
+Spoken script:
 
-English script:
+This slide evaluates robustness and deployment efficiency.
 
-Finally, we examine whether MDC-DAN learns the right evidence.
+The left figure shows the sensitivity of the adversarial parameter lambda. If lambda is too small, domain alignment is weak. If lambda is too large, the model may focus too much on confusing the discriminator.
 
-First, the t-SNE visualization shows feature distribution alignment. Before adaptation, source and target features are separated, which means the domain gap is large. After MDC-DAN, samples from the same fault class become more tightly clustered, regardless of whether they come from the source or target domain. This indicates that the learned representation is more domain-invariant.
+The best region appears around zero point five to zero point seven, and accuracy remains stable from zero point three to zero point eight. This means the method is not extremely sensitive to the exact lambda value.
 
-Second, we use SHAP to interpret feature importance. SHAP assigns contribution values to the 15 input features. The most important features are BPFO Energy Ratio and BPFI Energy Ratio, which are directly related to bearing fault characteristic frequencies.
+The dynamic lambda-p schedule also helps training. It starts with weaker adversarial pressure and gradually strengthens domain alignment.
 
-Therefore, MDC-DAN is not only accurate. It also relies on physically meaningful evidence rather than statistical shortcuts or background noise.
+For efficiency, the average inference time is four point two milliseconds per sample, and the computational cost is reduced by approximately sixty percent compared with heavier two-D CNN image-conversion pipelines.
 
-Chinese reminder:
+So MDC-DAN is accurate, robust, and suitable for lightweight deployment.
+Chinese note:
 
-这页回答审稿人/听众最关心的可信性问题：模型是不是学对了？t-SNE 看对齐，SHAP 看依据。结论是依赖物理有意义的特征。
-
-Time control:
-
-Do not explain SHAP formula unless asked in Q&A.
+讲清楚 lambda 太小和太大的问题。效率部分要强调 4.2 ms/sample 和 60% reduction。
 
 ---
 
-## Slide 16 - Conclusion
+## Slide 14 - Interpretability
 
-Suggested time: 35 seconds
+Time: 80 seconds
 
-Main message: summarize the method, limitation, and future work.
+Spoken script:
 
-English script:
+This slide checks whether MDC-DAN learns physically meaningful evidence.
 
-To conclude, MDC-DAN bridges the Sim-to-Real gap in digital-twin fault diagnosis by combining frozen physics priors with adversarial domain adaptation.
+The left figure is the t-SNE visualization. Before adaptation, source and target features are separated. After MDC-DAN, samples from the same fault class become more tightly clustered, even across domains. This indicates better domain-invariant representation.
 
-The main contributions are: first, a Physics-Encoding Layer that embeds bearing kinematic priors; second, adversarial adaptation that aligns residual source-target discrepancy; and third, interpretability analysis showing physically meaningful decision evidence.
+The right figure is the SHAP analysis. SHAP shows which features contribute most to prediction.
 
-One limitation is that the current implementation assumes known bearing geometry. In future work, we will address unknown-geometry scenarios through blind source adaptation, and improve robustness under non-stationary conditions using diffusion-based generation of physically consistent data.
+The important result is that BPFO Energy Ratio and BPFI Energy Ratio have high importance. These features are directly related to bearing fault characteristic frequencies.
 
-Thank you for your attention. I am happy to take questions.
+Therefore, MDC-DAN is not mainly relying on background noise or statistical shortcuts. It relies on physically meaningful evidence.
+Chinese note:
 
-Chinese reminder:
-
-结尾要稳，不要加入新内容。局限性要说成“我们已经知道并有未来方案”，避免显得方法不完整。
-
-Time control:
-
-End confidently. Leave time for Q&A.
+这一页的逻辑是：t-SNE 证明域对齐，SHAP 证明依据正确。最后说 trustworthy。
 
 ---
 
-# Q&A Preparation
+## Slide 15 - Conclusion
 
-## Q1: Why not use vanilla DANN directly?
+Time: 60 seconds
 
-Suggested answer:
+Spoken script:
 
-Vanilla DANN aligns learned features directly from raw or statistical inputs. In noisy Sim-to-Real diagnosis, this may align noise patterns. MDC-DAN first applies a frozen Physics-Encoding Layer, so the adversarial module aligns mechanism-aware features rather than arbitrary statistical patterns.
+To conclude, this work proposes MDC-DAN for Sim-to-Real fault diagnosis in digital twins.
 
-中文理解：普通 DANN 可能对齐噪声；MDC-DAN 先用物理机制过滤/锚定，再对齐。
+The main takeaway is that MDC-DAN bridges the Sim-to-Real gap by combining frozen physics priors with adversarial domain adaptation.
 
-## Q2: Is the Physics-Encoding Layer just handcrafted feature engineering?
+First, the Physics-Encoding Layer embeds bearing kinematic priors into the network input.
 
-Suggested answer:
+Second, adversarial adaptation aligns residual source-target discrepancy after physics encoding.
 
-It is related to feature engineering, but the key difference is how it is integrated. In MDC-DAN, Phi-phy is formulated as a non-learnable network layer and becomes the input stage of an end-to-end domain adaptation architecture. It constrains the representation before adversarial learning.
+Third, t-SNE and SHAP support that the model uses physically meaningful decision evidence.
 
-中文理解：不是单独提特征后分类，而是作为网络结构里的 frozen layer，和 DANN 协同。
+For future work, we will further study blind source adaptation for unknown-geometry scenarios, and investigate diffusion-based generation of physically consistent nonstationary data.
+Chinese note:
 
-## Q3: What if bearing geometry is unknown?
+结论页要稳，突出贡献和未来工作即可，不主动展开局限性。
 
-Suggested answer:
+---
 
-The current implementation assumes known bearing geometry for calculating theoretical fault frequencies. This is a limitation. Future work will address unknown-geometry scenarios through blind source adaptation and adaptive frequency learning.
+## Slide 16 - Thank You
 
-中文理解：承认限制，但强调这是 future work。
+Time: 20 seconds
 
-## Q4: Why is target accuracy so much higher than ResNet-18?
+Spoken script:
 
-Suggested answer:
+Thank you very much for your attention.
 
-ResNet-18 is trained on source-domain raw signals and can overfit source-specific statistics. MDC-DAN combines mechanism-aware features with adversarial domain alignment, which improves target-domain generalization under distribution shift.
+I am happy to take your questions.
 
-中文理解：不是网络越深越好，关键是物理锚点和跨域对齐。
+You can also contact me by email at fcshan@nuaa.edu.cn.
 
-## Q5: What do t-SNE and SHAP prove?
+Chinese note:
 
-Suggested answer:
+这一页结束后停顿，看老师是否提问。不要急着自己补充内容。
 
-t-SNE provides visual evidence that source and target features become better aligned after adaptation. SHAP provides feature-level evidence that mechanism-related features, especially BPFO and BPFI energy ratios, contribute strongly to the prediction. Together they support both domain alignment and physical consistency.
+---
 
-中文理解：t-SNE 证明对齐，SHAP 证明依据正确。
+# Q&A Emergency Answers
 
+## Question 1: Why not use vanilla DANN directly?
+
+Answer:
+
+Vanilla DANN aligns learned features without explicit physical constraints. In noisy Sim-to-Real fault diagnosis, this may align noise patterns. MDC-DAN first uses the frozen Physics-Encoding Layer to obtain mechanism-aware features, and then applies adversarial alignment. Therefore, the alignment is guided by physical fault evidence.
+
+## Question 2: Is the Physics-Encoding Layer just handcrafted feature engineering?
+
+Answer:
+
+It is related to physical feature extraction, but in MDC-DAN it is integrated as a non-learnable network layer. It is not used alone. It works together with the trainable Domain-Adversarial Module, so the final model combines physical priors and data-driven adaptation.
+
+## Question 3: What if the bearing geometry is unknown?
+
+Answer:
+
+The current implementation assumes known bearing geometry for calculating characteristic frequencies. This is a limitation. In future work, we plan to address unknown-geometry scenarios through blind source adaptation and adaptive frequency learning.
+
+## Question 4: Why does MDC-DAN outperform ResNet eighteen by such a large margin?
+
+Answer:
+
+ResNet eighteen is trained on source-domain raw signals and may overfit source-specific statistical patterns. MDC-DAN introduces physics-aligned features and adversarial adaptation, so it can better generalize to the target domain under distribution shift.
+
+## Question 5: What do t-SNE and SHAP prove?
+
+Answer:
+
+t-SNE shows that source and target features become better aligned after adaptation. SHAP shows that mechanism-related features, especially BPFO and BPFI energy ratios, contribute strongly to prediction. Together, they support both domain alignment and physical consistency.

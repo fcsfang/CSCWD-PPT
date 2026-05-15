@@ -135,8 +135,10 @@ h3 {
   background: #fff;
   padding: 6px 4px;
   text-align: center;
-  font-size: .76rem;
+  font-size: .7rem;
   font-weight: 720;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .source-keywords span {
@@ -269,7 +271,7 @@ h3 {
   margin-top: 16px;
   color: var(--text);
   font-family: "Times New Roman", Times, serif;
-  font-size: 2.12rem;
+  font-size: 1.82rem;
   font-weight: 600;
 }
 

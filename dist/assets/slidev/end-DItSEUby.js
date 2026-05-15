@@ -1,0 +1,1 @@
+import{R as e,V as t,x as n,y as r}from"../modules/shiki-hnhr9Ho2.js";import{t as i}from"../_plugin-vue_export-helper-BOai-rQB.js";var a={},o={class:`slidev-layout end`};function s(i,a){return e(),r(`div`,o,[t(i.$slots,`default`,{},()=>[a[0]||=n(`END`,-1)],!0)])}var c=i(a,[[`render`,s],[`__scopeId`,`data-v-71223ff9`]]);export{c as t};
